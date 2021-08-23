@@ -28,7 +28,7 @@
 <body class="home blog custom-background {% if SINGLE_AUTHOR %}single-author{% endif %}" >
 	<div id="container">
 		<div id="header">
-				<h1 id="site-title"><a href="/"><img src="/images/banner.png" width="100%"></a></h1>
+				<h1 id="site-title"><a href="{{ SITEURL }}"><img src="{{ SITE_URL }}/images/banner.png" width="100%"></a></h1>
 				<!-- <h1 id="site-title"><a href="{{ SITEURL }}">{{ SITENAME }}</a></h1> -->
 				{% if SITESUBTITLE %}<h2 id="site-description">{{ SITESUBTITLE }}</h2>{% endif %}
 		</div><!-- /#banner -->
