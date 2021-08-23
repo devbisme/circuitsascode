@@ -51,3 +51,11 @@ MANIFEST
 # Per-project virtualenvs
 .venv*/
 .conda*/
+
+# SKiDL files
+fp_info_cache
+.skidlcfg
+*_sklib.py
+*.erc
+*.net
+*.kicad_pcb

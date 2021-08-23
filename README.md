@@ -1,19 +1,36 @@
-# circuitsascode
+![Circuits as Code banner](logos/banner.png)
 
-Add a short description here!
+[![](https://img.shields.io/pypi/v/circuitsascode.svg)](https://pypi.python.org/pypi/circuitsascode)
+
+# Circuits as Code
+
+This is a collection of pre-built circuits written as scripts in [SKiDL](http://xesscorp.github.io/skidl).
 
 
 ## Description
 
-A longer description of your project goes here...
+[SKiDL](http://xesscorp.github.io/skidl) lets you create electronic circuits by writing Python scripts instead of using a schematic editor.
+The `circuitsascode` auxiliary Python package gives you a library of ready-made electronic circuits that serves several purposes:
 
+1. It provides a set of lower-level modules that you can integrate within your own designs.
+1. It shows you examples of how to write SKiDL code.
 
-<!-- pyscaffold-notes -->
+## Installation
 
-## Note
+You can install this circuit library using `pip`:
 
-This project has been set up using PyScaffold 4.0.2. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
+```bash
+pip install circuitsascode
+```
 
-## Documentation Link
-[Project documentation](https://devbisme.github.io/circuitsascode): https://devbisme.github.io/circuitsascode
+## Usage
+
+Just import the library to use a circuit module:
+
+```py
+import circuitsascode as casc
+
+vin, vout, gnd = Net("VIN"), Net("VOUT"), Net("GND")
+vreg1 = circuitsascode.vreg.linear.adj_reg(vin, vout, gnd, v_vout=3.3)
+...
+```

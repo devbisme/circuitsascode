@@ -1,4 +1,18 @@
+# The MIT License (MIT) - Copyright (c) 2021 xesscorp
+
+"""
+Categorized collections of circuits.
+"""
+
 import sys
+
+import pint
+
+# Create a shortcut name for "circuitsascode".
+sys.modules["casc"] = sys.modules["circuitsascode"]
+
+# For electrical units like ohms, volts, etc.
+units = pint.UnitRegistry()
 
 if sys.version_info[:2] >= (3, 8):
     # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`

@@ -11,6 +11,7 @@ import os
 import sys
 import inspect
 import shutil
+import commonmark
 
 # -- Path setup --------------------------------------------------------------
 
@@ -47,7 +48,7 @@ try:
     import sphinx
 
     cmd_line_template = (
-        "sphinx-apidoc --implicit-namespaces -f -o {outputdir} {moduledir}"
+        "sphinx-apidoc --implicit-namespaces -e -M -f -o {outputdir} {moduledir}"
     )
     cmd_line = cmd_line_template.format(outputdir=output_dir, moduledir=module_dir)
 
@@ -78,11 +79,20 @@ extensions = [
     "sphinx.ext.ifconfig",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
+    "recommonmark",  # Enable markdown.
+    # "myst_parser",   # Alternative markdown parser.
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
+
+def docstring(app, what, name, obj, options, lines):
+    md  = '\n'.join(lines)
+    ast = commonmark.Parser().parse(md)
+    rst = commonmark.ReStructuredTextRenderer().render(ast)
+    lines.clear()
+    lines += rst.splitlines()
 
 # Configure AutoStructify
 # https://recommonmark.readthedocs.io/en/latest/auto_structify.html
@@ -100,9 +110,14 @@ def setup(app):
     app.add_config_value("recommonmark_config", params, True)
     app.add_transform(AutoStructify)
 
+    # app.connect('autodoc-process-docstring', docstring)
 
-# Enable markdown
-extensions.append("recommonmark")
+# Global code that's run at the start of every code snippet.
+doctest_global_setup = """
+from skidl import *
+import circuitsascode as casc
+from casc import units
+"""
 
 # The suffix of source filenames.
 source_suffix = [".rst", ".md"]
@@ -138,7 +153,7 @@ release = ""  # Is set by calling `setup.py docs`
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv", "pelicansite", "**_lib_sklib.*"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -163,12 +178,17 @@ pygments_style = "sphinx"
 # If true, keep warnings as "system message" paragraphs in the built documents.
 # keep_warnings = False
 
+# Experimental feature to preserve the default argument values of
+# functions in source code and keep them not evaluated for readability:
+autodoc_preserve_defaults = True
+
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = "alabaster"
+html_theme = "bizstyle"
+html_theme_path = ["themes"]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

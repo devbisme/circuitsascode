@@ -3,4 +3,4 @@
 # under `install_requires` in `setup.cfg` is also listed here!
 # sphinx_rtd_theme
 recommonmark
-sphinx>=3.2.1
+sphinx>=4.0.0

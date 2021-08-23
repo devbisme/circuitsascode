@@ -1,3 +1,3 @@
 # Contributors
 
-* devbisme <devb@xess.com>
+* Dave Vandenbout <devb@xess.com>
