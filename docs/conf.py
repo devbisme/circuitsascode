@@ -271,6 +271,8 @@ html_static_path = ["_static"]
 # Output file base name for HTML help builder.
 htmlhelp_basename = "circuitsascode-doc"
 
+html_base_url = "https://devbisme.github.io/circuitsascode/docs/pelicansite/output"
+
 
 # -- Options for LaTeX output ------------------------------------------------
 
