@@ -12,4 +12,4 @@ in two ways:
 1. It provides a set of lower-level modules that you can integrate within your own designs.
 2. It shows you examples of how to write SKiDL code.
 
-Just click on the [Library](/api/html/index.html) menu item to start browsing the collection of circuits.
+Just click on the [Library]({{ SITEURL }}/api/html/index.html) menu item to start browsing the collection of circuits.
