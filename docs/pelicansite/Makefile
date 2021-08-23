@@ -73,8 +73,9 @@ devserver-global:
 	$(PELICAN) -lr $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS) -b 0.0.0.0
 
 publish: 
-	make -C .. html
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
+	# Make Sphinx docs last because Pelican publish starts by deleting output directory.
+	make -C .. html
 
 
 .PHONY: html help clean regenerate serve serve-global devserver publish 
