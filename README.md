@@ -16,7 +16,7 @@ The `circuitsascode` auxiliary Python package gives you a library of ready-made 
 1. It shows you examples of how to write SKiDL code.
 
 * Free software: MIT license
-* Documentation: http://xesscorp.github.io/circuitsascode
+* Documentation: http://devbisme.github.io/circuitsascode
 * User Forum: https://github.com/xesscorp/skidl/discussions
 
 ## Installation
