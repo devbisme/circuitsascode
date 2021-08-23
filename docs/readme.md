@@ -24,9 +24,9 @@ pip install circuitsascode
 Just import the library to use a circuit module:
 
 ```py
-import circuitsascode as cac
+import circuitsascode.vregs
 
 vin, vout, gnd = Net("VIN"), Net("VOUT"), Net("GND")
-vreg1 = cac.vreg.linear.adj_reg(vin, vout, gnd, v_vout=3.3)
+vreg1 = circuitsascode.vregs.adj_reg(vin, vout, gnd, v_vout=3.3)
 ...
 ```

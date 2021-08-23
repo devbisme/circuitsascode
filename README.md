@@ -15,6 +15,10 @@ The `circuitsascode` auxiliary Python package gives you a library of ready-made 
 1. It provides a set of lower-level modules that you can integrate within your own designs.
 1. It shows you examples of how to write SKiDL code.
 
+* Free software: MIT license
+* Documentation: http://xesscorp.github.io/circuitsascode
+* User Forum: https://github.com/xesscorp/skidl/discussions
+
 ## Installation
 
 You can install this circuit library using `pip`:
@@ -28,9 +32,9 @@ pip install circuitsascode
 Just import the library to use a circuit module:
 
 ```py
-import circuitsascode as casc
+import circuitsascode.vregs
 
 vin, vout, gnd = Net("VIN"), Net("VOUT"), Net("GND")
-vreg1 = circuitsascode.vreg.linear.adj_reg(vin, vout, gnd, v_vout=3.3)
+vreg1 = circuitsascode.vregs.adj_reg(vin, vout, gnd, v_vout=3.3)
 ...
 ```
