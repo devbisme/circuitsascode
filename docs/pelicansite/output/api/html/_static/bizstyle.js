@@ -36,6 +36,6 @@ $(window).resize(function(){
         $("li.nav-item-0 a").text("Top");
     }
     else {
-        $("li.nav-item-0 a").text("circuitsascode 0.0.post1.dev13+g782afeb.d20210823 documentation");
+        $("li.nav-item-0 a").text("circuitsascode 0.0.post1.dev15+gb857f78 documentation");
     }
 });
