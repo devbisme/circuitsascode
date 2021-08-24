@@ -221,6 +221,7 @@ else:
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
 # html_favicon = None
+html_favicon = "favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -270,8 +271,6 @@ html_static_path = ["_static"]
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "circuitsascode-doc"
-
-# html_base_url = "https://devbisme.github.io/circuitsascode/docs/pelicansite/output"
 
 
 # -- Options for LaTeX output ------------------------------------------------
