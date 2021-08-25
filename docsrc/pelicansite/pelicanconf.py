@@ -3,7 +3,7 @@
 
 AUTHOR = "Dave Vandenbout"
 SITENAME = "circuits as code"
-SITEURL = "/"
+SITEURL = ""
 
 TIMEZONE = "America/New_York"
 
@@ -41,9 +41,9 @@ DISPLAY_CATEGORIES_ON_MENU = False
 MENUITEMS = (
     ("Source", "https://github.com/devbisme/circuitsascode"),
     ("Forum", "https://github.com/xesscorp/skidl/discussions"),
-    ("Blog", "/category/posts"),
-    ("Library", "/api/html/index.html"),
-    ("Home", "/"),
+    ("Blog", f"{SITEURL}/category/posts"),
+    ("Library", f"{SITEURL}/api/html/index.html"),
+    ("Home", f"{SITEURL}/"),
 )
 
 # Blogroll

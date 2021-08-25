@@ -1,0 +1,41 @@
+Results of doctest builder run on 2021-08-25 09:55:28
+=====================================================
+
+Document: api/circuitsascode.simple.v_div
+-----------------------------------------
+1 items passed all tests:
+  20 tests in default
+20 tests in 1 items.
+20 passed and 0 failed.
+Test passed.
+
+Document: api/circuitsascode.displays.vga
+-----------------------------------------
+1 items passed all tests:
+  10 tests in default
+10 tests in 1 items.
+10 passed and 0 failed.
+Test passed.
+
+Document: api/circuitsascode.utilities
+--------------------------------------
+1 items passed all tests:
+  10 tests in default
+10 tests in 1 items.
+10 passed and 0 failed.
+Test passed.
+
+Document: api/circuitsascode.interfaces.pmod
+--------------------------------------------
+1 items passed all tests:
+  10 tests in default
+10 tests in 1 items.
+10 passed and 0 failed.
+Test passed.
+
+Doctest summary
+===============
+   50 tests
+    0 failures in tests
+    0 failures in setup code
+    0 failures in cleanup code
