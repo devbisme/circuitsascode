@@ -12,6 +12,7 @@ from pelicanconf import *
 sys.path.append(os.curdir)
 
 # If your site is available via HTTPS, make sure SITEURL begins with https://
+SITEURL = "/circuitsascode"
 # SITEURL = 'https://devbisme.github.io/circuitsascode'
 # SITEURL = "https://devbisme.github.io/circuitsascode/docs/pelicansite/output"
 RELATIVE_URLS = False
@@ -21,13 +22,13 @@ CATEGORY_FEED_ATOM = "feeds/{slug}.atom.xml"
 
 DELETE_OUTPUT_DIRECTORY = True
 
-# MENUITEMS = (
-#     ("Source", "https://github.com/devbisme/circuitsascode"),
-#     ("Forum", "https://github.com/xesscorp/skidl/discussions"),
-#     ("Blog", f"{SITEURL}/category/posts"),
-#     ("Library", f"{SITEURL}/api/html/index.html"),
-#     ("Home", f"{SITEURL}/"),
-# )
+MENUITEMS = (
+    ("Source", "https://github.com/devbisme/circuitsascode"),
+    ("Forum", "https://github.com/xesscorp/skidl/discussions"),
+    ("Blog", f"{SITEURL}/category/posts"),
+    ("Library", f"{SITEURL}/api/html/index.html"),
+    ("Home", f"{SITEURL}/"),
+)
 
 # Following items are often useful when publishing
 
