@@ -162,7 +162,6 @@ exclude_patterns = [
     "Thumbs.db",
     ".DS_Store",
     ".venv",
-    "pelicansite",
     "**_lib_sklib.*",
 ]
 
