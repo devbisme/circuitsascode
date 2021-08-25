@@ -7,8 +7,6 @@ SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = ../../docs/api
-# BUILDDIR      = pelicansite/output/api
-# BUILDDIR      = _build
 AUTODOCDIR    = api
 
 # User-friendly check for sphinx-build

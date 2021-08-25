@@ -13,8 +13,6 @@ from pelicanconf import *
 
 # If your site is available via HTTPS, make sure SITEURL begins with https://
 SITEURL = "/circuitsascode"
-# SITEURL = 'https://devbisme.github.io/circuitsascode'
-# SITEURL = "https://devbisme.github.io/circuitsascode/docs/pelicansite/output"
 RELATIVE_URLS = False
 
 FEED_ALL_ATOM = "feeds/all.atom.xml"
