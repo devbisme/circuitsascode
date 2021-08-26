@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circuits as code</title><link href="/circuitsascode/" rel="alternate"></link><link href="/circuitsascode/feeds/all.atom.xml" rel="self"></link><id>/circuitsascode/</id><updated>2021-08-20T16:30:00-04:00</updated><entry><title>Why?</title><link href="/circuitsascode/why.html" rel="alternate"></link><published>2021-08-20T16:30:00-04:00</published><updated>2021-08-20T16:30:00-04:00</updated><author><name>Dave Vandenbout</name></author><id>tag:None,2021-08-20:/circuitsascode/why.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Why does &lt;em&gt;Circuits as Code&lt;/em&gt; exist?
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circuits as code</title><link href="/circuitsascode/" rel="alternate"></link><link href="/circuitsascode/feeds/all.atom.xml" rel="self"></link><id>/circuitsascode/</id><updated>2021-08-20T16:30:00-04:00</updated><entry><title>Why?</title><link href="/circuitsascode/why-2021-08-20%2016:30:00-04:00.html" rel="alternate"></link><published>2021-08-20T16:30:00-04:00</published><updated>2021-08-20T16:30:00-04:00</updated><author><name>Dave Vandenbout</name></author><id>tag:None,2021-08-20:/circuitsascode/why-2021-08-20 16:30:00-04:00.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Why does &lt;em&gt;Circuits as Code&lt;/em&gt; exist?
 Couldn't this just as well have been a part of SKiDL?&lt;/p&gt;
-&lt;p&gt;Yes, maybe. But "circuits as code" is so much easier to understand.
+&lt;p&gt;Yes, maybe. But "circuits as code" is so much easier to remember.
 Nobody knows what "SKiDL" means.&lt;/p&gt;
 &lt;p&gt;This library and the web site also serve some other purposes.
 Most importantly, it contains useful subcircuits that you can
-include in your own design and save yourself some effort.&lt;/p&gt;
+include in your own designs and save yourself some effort.&lt;/p&gt;
 &lt;p&gt;You can also use this as a teaching resource by reading through the source code to see
 how SKiDL is used.&lt;/p&gt;
 &lt;p&gt;Finally, it serves as a testbed for SKiDL.

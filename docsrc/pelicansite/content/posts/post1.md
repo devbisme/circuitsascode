@@ -7,12 +7,12 @@ Summary:
 Why does *Circuits as Code* exist?
 Couldn't this just as well have been a part of SKiDL?
 
-Yes, maybe. But "circuits as code" is so much easier to understand.
+Yes, maybe. But "circuits as code" is so much easier to remember.
 Nobody knows what "SKiDL" means.
 
 This library and the web site also serve some other purposes.
 Most importantly, it contains useful subcircuits that you can
-include in your own design and save yourself some effort.
+include in your own designs and save yourself some effort.
 
 You can also use this as a teaching resource by reading through the source code to see
 how SKiDL is used.

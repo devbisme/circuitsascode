@@ -3,7 +3,12 @@
 
 AUTHOR = "Dave Vandenbout"
 SITENAME = "circuits as code"
+
+# For local dev, use a blank site URL.
 SITEURL = ""
+
+GITHUB_URL = "devbisme/circuitsascode"
+TWITTER_USERNAME = "circuitsascode"
 
 TIMEZONE = "America/New_York"
 
@@ -19,11 +24,23 @@ THEME = "themes/chunk"
 PATH = "content"
 
 # Additional paths to include in output.
-STATIC_PATHS = ["images"]
+STATIC_PATHS = ["images", "misc"]
 
 EXTRA_PATH_METADATA = {
-    "images/favicon.ico": {"path": "favicon.ico"}  # Copy favicon to root directory.
+    "images/favicon.ico": {"path": "favicon.ico"},  # Copy favicon to root directory.
+    "misc/.nojekyll": {
+        "path": ".nojekyll"
+    },  # Place at top-level to disable Github Jekyll.
 }
+
+PLUGINS = ["jinja2content"]
+
+# Save blog posts using slug-date to prevent name conflicts.
+ARTICLE_SAVE_AS = "{slug}-{date}.html"
+ARTICLE_URL = ARTICLE_SAVE_AS
+
+# Keep .nojekyll around even if output directory is cleared.
+OUTPUT_RETENTION = [".nojekyll"]
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -39,7 +56,7 @@ FOOTER_TEXT = " "
 # Menu.
 DISPLAY_CATEGORIES_ON_MENU = False
 MENUITEMS = (
-    ("Source", "https://github.com/devbisme/circuitsascode"),
+    ("Github", "https://github.com/devbisme/circuitsascode"),
     ("Forum", "https://github.com/xesscorp/skidl/discussions"),
     ("Blog", f"{SITEURL}/category/posts"),
     ("Library", f"{SITEURL}/api/html/index.html"),
