@@ -33,7 +33,9 @@ EXTRA_PATH_METADATA = {
     },  # Place at top-level to disable Github Jekyll.
 }
 
-PLUGINS = ["jinja2content"]
+PLUGINS = [
+    "jinja2content",  # So stuff like {{ SITEURL}} will work in markdown content.
+]
 
 # Save blog posts using slug-date to prevent name conflicts.
 ARTICLE_SAVE_AS = "{slug}-{date}.html"
@@ -53,7 +55,7 @@ AUTHOR_FEED_RSS = None
 FOOTER_TEXT = " "
 
 
-# Menu.
+# Menu. Mirror any changes here in publishconf.py!
 DISPLAY_CATEGORIES_ON_MENU = False
 MENUITEMS = (
     ("Github", "https://github.com/devbisme/circuitsascode"),
@@ -72,10 +74,10 @@ LINKS = (
 )
 
 # Social widget
-SOCIAL = (
-    ("You can add links in your config file", "#"),
-    ("Another social link", "#"),
-)
+# SOCIAL = (
+#     ("You can add links in your config file", "#"),
+#     ("Another social link", "#"),
+# )
 
 DEFAULT_PAGINATION = 10
 
