@@ -33,10 +33,6 @@ EXTRA_PATH_METADATA = {
     },  # Place at top-level to disable Github Jekyll.
 }
 
-PLUGINS = [
-    "jinja2content",  # So stuff like {{ SITEURL}} will work in markdown content.
-]
-
 # Save blog posts using slug-date to prevent name conflicts.
 ARTICLE_SAVE_AS = "{slug}-{date}.html"
 ARTICLE_URL = ARTICLE_SAVE_AS
