@@ -32,9 +32,22 @@ pip install circuitsascode
 Just import the library to use a circuit module:
 
 ```py
-import circuitsascode.vregs
+# Import the function that creates a VGA display interface.
+from circuitsascode.displays.vga import vga
 
-vin, vout, gnd = Net("VIN"), Net("VOUT"), Net("GND")
-vreg1 = circuitsascode.vregs.adj_reg(vin, vout, gnd, v_vout=3.3)
-...
+# Create color and sync signals to connect to the VGA interface.
+red, grn, blu = Bus(5), Bus(4), Bus(3)
+hsync, vsync, gnd = Net(), Net(), Net()
+
+# Create a VGA interface circuit customized for the widths
+# of the RGB buses.
+vga1 = vga(rgb=(len(red), len(grn), len(blu)))
+
+# Connect the signals to the VGA interface circuit.
+vga1.red += red
+vga1.grn += grn
+vga1.blu += blu
+vga1.hsync += hsync
+vga1.vsync += vsync
+vga1.gnd += gnd
 ```

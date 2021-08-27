@@ -43,7 +43,7 @@ def vga(rgb=None, e_series="E12", logic_lvl=3.3 * units.volts):
             * gnd:   Ground net.
 
     Example:
-        >>> from circuitsascode.displays.vga import *
+        >>> from circuitsascode.displays.vga import vga
         >>> red, grn, blu = Bus(5), Bus(4), Bus(3)
         >>> hsync, vsync, gnd = Net(), Net(), Net()
         >>> vga1 = vga(rgb=(len(red), len(grn), len(blu)))
