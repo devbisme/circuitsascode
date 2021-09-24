@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>circuitsascode.simple.v_div module &#8212; circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</title>
+    <title>circuitsascode.vregs.linear module &#8212; circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
 
@@ -17,8 +17,8 @@
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="circuitsascode.vregs package" href="circuitsascode.vregs.html" />
-    <link rel="prev" title="circuitsascode.simple package" href="circuitsascode.simple.html" />
+    <link rel="next" title="circuitsascode.utilities module" href="circuitsascode.utilities.html" />
+    <link rel="prev" title="circuitsascode.vregs package" href="circuitsascode.vregs.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
@@ -36,16 +36,16 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="circuitsascode.vregs.html" title="circuitsascode.vregs package"
+          <a href="circuitsascode.utilities.html" title="circuitsascode.utilities module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="circuitsascode.simple.html" title="circuitsascode.simple package"
+          <a href="circuitsascode.vregs.html" title="circuitsascode.vregs package"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="circuitsascode.simple.html" accesskey="U">circuitsascode.simple package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div module</a></li>
+          <li class="nav-item nav-item-3"><a href="circuitsascode.vregs.html" accesskey="U">circuitsascode.vregs package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear module</a></li>
       </ul>
     </div>
 
@@ -54,70 +54,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
 
-  <div class="section" id="module-circuitsascode.simple.v_div">
-<span id="circuitsascode-simple-v-div-module"></span><h1>circuitsascode.simple.v_div module<a class="headerlink" href="#module-circuitsascode.simple.v_div" title="Permalink to this headline">¶</a></h1>
-<p>This module provides both resistive and capacitive voltage dividers.</p>
-<p>The only required parameter is the ratio of the output voltage w.r.t
-the input voltage. The resistance/capacitance of each leg of the divider
-is computed using this ratio.</p>
-<dl class="simple">
-<dt>Optional parameters include:</dt><dd><ul class="simple">
-<li><p>the total resistance/capacitance of both legs of the divider,</p></li>
-<li><p>the resistor/capacitor tolerance as given by the E series (<a class="reference external" href="https://www.wikiwand.com/en/E_series_of_preferred_numbers">https://www.wikiwand.com/en/E_series_of_preferred_numbers</a>),</p></li>
-<li><p>and a resistor/capacitor part template that’s used to instantiate both legs of the divider.</p></li>
-</ul>
-</dd>
-</dl>
+  <div class="section" id="module-circuitsascode.vregs.linear">
+<span id="circuitsascode-vregs-linear-module"></span><h1>circuitsascode.vregs.linear module<a class="headerlink" href="#module-circuitsascode.vregs.linear" title="Permalink to this headline">¶</a></h1>
+<p>This module provides circuits based upon linear voltage regulators.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="circuitsascode.simple.v_div.v_div_c">
-<span class="sig-prename descclassname"><span class="pre">circuitsascode.simple.v_div.</span></span><span class="sig-name descname"><span class="pre">v_div_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span> <span class="pre">*</span> <span class="pre">units.nanofarad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E12'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Part('Device',</span> <span class="pre">'C',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Capacitor_SMD:C_0603_1608Metric')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/simple/v_div.html#v_div_c"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.simple.v_div.v_div_c" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a capacitor voltage divider.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ratio</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Voltage division ratio in the range [0, 1].</p></li>
-<li><p><strong>c_total</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Total capacitance of both legs of the divider. Defaults to 1000 nanofarads.</p></li>
-<li><p><strong>e_series</strong> (<em>string</em><em>, </em><em>optional</em>) – E-series of capacitor values (E3, E6, E12, E24, E48, E96, E192). Defaults to “E12” (10%).</p></li>
-<li><p><strong>c_temp</strong> (<em>Part</em>) – Part template for creating divider capacitors. Defaults to two-pin, surface-mount 0603 footprint.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>An Interface object with the following I/O</dt><dd><ul class="simple">
-<li><p>vin:  Input voltage to top leg of divider.</p></li>
-<li><p>vout: Output voltage from junction of upper &amp; lower legs of divider.</p></li>
-<li><p>gnd:  Reference voltage (usually ground) to bottom leg of divider.</p></li>
-</ul>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Interface</p>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">circuitsascode.simple.v_div</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span> <span class="o">=</span> <span class="n">v_div_c</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">c_total</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">nanofarad</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="s1">&#39;E24&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vin</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VIN&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">vout</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VOUT&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gnd</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;GND&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span><span class="p">[</span><span class="s2">&quot;vin vout gnd&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">vin</span><span class="p">,</span> <span class="n">vout</span><span class="p">,</span> <span class="n">gnd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span>
-<span class="go">&#39;(...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vin</span><span class="p">)</span>
-<span class="go">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vout</span><span class="p">)</span>
-<span class="go">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">gnd</span><span class="p">)</span>
-<span class="go">1</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="circuitsascode.simple.v_div.v_div_r">
-<span class="sig-prename descclassname"><span class="pre">circuitsascode.simple.v_div.</span></span><span class="sig-name descname"><span class="pre">v_div_r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">units.kohm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E24'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Part('Device',</span> <span class="pre">'R',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Resistor_SMD:R_0603_1608Metric')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/simple/v_div.html#v_div_r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.simple.v_div.v_div_r" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="circuitsascode.vregs.linear.adj_vreg">
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.vregs.linear.</span></span><span class="sig-name descname"><span class="pre">adj_vreg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.3</span> <span class="pre">*</span> <span class="pre">units.volts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">units.kohm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E24'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vreg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Part('Device',</span> <span class="pre">'R',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Resistor_SMD:R_0603_1608Metric')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/vregs/linear.html#adj_vreg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.vregs.linear.adj_vreg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a resistor voltage divider.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -162,6 +104,53 @@ is computed using this ratio.</p>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="circuitsascode.vregs.linear.v_div_c">
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.vregs.linear.</span></span><span class="sig-name descname"><span class="pre">v_div_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span> <span class="pre">*</span> <span class="pre">units.nanofarad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E12'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Part('Device',</span> <span class="pre">'C',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Capacitor_SMD:C_0603_1608Metric')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/vregs/linear.html#v_div_c"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.vregs.linear.v_div_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a capacitor voltage divider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ratio</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Voltage division ratio in the range [0, 1].</p></li>
+<li><p><strong>c_total</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Total capacitance of both legs of the divider. Defaults to 1000 nanofarads.</p></li>
+<li><p><strong>e_series</strong> (<em>string</em><em>, </em><em>optional</em>) – E-series of capacitor values (E3, E6, E12, E24, E48, E96, E192). Defaults to “E12” (10%).</p></li>
+<li><p><strong>c_temp</strong> (<em>Part</em>) – Part template for creating divider capacitors. Defaults to two-pin, surface-mount 0603 footprint.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>An Interface object with the following I/O</dt><dd><ul class="simple">
+<li><p>vin:  Input voltage to top leg of divider.</p></li>
+<li><p>vout: Output voltage from junction of upper &amp; lower legs of divider.</p></li>
+<li><p>gnd:  Reference voltage (usually ground) to bottom leg of divider.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Interface</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">circuitsascode.simple.v_div</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span> <span class="o">=</span> <span class="n">v_div_c</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">c_total</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">nanofarad</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="s1">&#39;E24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vin</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VIN&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vout</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VOUT&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gnd</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;GND&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span><span class="p">[</span><span class="s2">&quot;vin vout gnd&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">vin</span><span class="p">,</span> <span class="n">vout</span><span class="p">,</span> <span class="n">gnd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span>
+<span class="go">&#39;(...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vin</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vout</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">gnd</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 
 
@@ -172,15 +161,15 @@ is computed using this ratio.</p>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="circuitsascode.simple.html"
-                        title="previous chapter">circuitsascode.simple package</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="circuitsascode.vregs.html"
-                        title="next chapter">circuitsascode.vregs package</a></p>
+                        title="previous chapter">circuitsascode.vregs package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="circuitsascode.utilities.html"
+                        title="next chapter">circuitsascode.utilities module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/circuitsascode.simple.v_div.rst.txt"
+      <li><a href="../_sources/api/circuitsascode.vregs.linear.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -208,16 +197,16 @@ is computed using this ratio.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="circuitsascode.vregs.html" title="circuitsascode.vregs package"
+          <a href="circuitsascode.utilities.html" title="circuitsascode.utilities module"
              >next</a> |</li>
         <li class="right" >
-          <a href="circuitsascode.simple.html" title="circuitsascode.simple package"
+          <a href="circuitsascode.vregs.html" title="circuitsascode.vregs package"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="circuitsascode.simple.html" >circuitsascode.simple package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div module</a></li>
+          <li class="nav-item nav-item-3"><a href="circuitsascode.vregs.html" >circuitsascode.vregs package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear module</a></li>
       </ul>
     </div>
     <div class="footer" role="contentinfo">

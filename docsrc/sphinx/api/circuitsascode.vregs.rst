@@ -5,3 +5,11 @@ circuitsascode.vregs package
    :members:
    :undoc-members:
    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   circuitsascode.vregs.linear
