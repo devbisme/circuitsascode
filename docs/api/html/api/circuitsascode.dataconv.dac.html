@@ -6,10 +6,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>circuitsascode.dataconv.dac module &#8212; circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</title>
+    <title>circuitsascode.dataconv.dac module &#8212; circuitsascode 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
-
+    
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -25,7 +25,7 @@
     <![endif]-->
   </head><body>
     <h1 id="site-title"><a href="../../../"><img src="../../../images/slim_banner.png" width="100%"></a></h1>
-
+    
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -41,33 +41,34 @@
         <li class="right" >
           <a href="circuitsascode.dataconv.html" title="circuitsascode.dataconv package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="circuitsascode.dataconv.html" accesskey="U">circuitsascode.dataconv package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.dataconv.dac module</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.dataconv.dac module</a></li> 
       </ul>
-    </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <div class="section" id="module-circuitsascode.dataconv.dac">
 <span id="circuitsascode-dataconv-dac-module"></span><h1>circuitsascode.dataconv.dac module<a class="headerlink" href="#module-circuitsascode.dataconv.dac" title="Permalink to this headline">¶</a></h1>
 <p>This module provides some digital-to-analog converters (DACs).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="circuitsascode.dataconv.dac.dac_r2r">
-<span class="sig-prename descclassname"><span class="pre">circuitsascode.dataconv.dac.</span></span><span class="sig-name descname"><span class="pre">dac_r2r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span> <span class="pre">*</span> <span class="pre">units.ohm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E96'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Part('Device',</span> <span class="pre">'R',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Resistor_SMD:R_0603_1608Metric')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/dataconv/dac.html#dac_r2r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.dataconv.dac.dac_r2r" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates an unbuffered R-2R DAC using a resistor ladder. (<a class="reference external" href="https://www.wikiwand.com/en/Resistor_ladder">https://www.wikiwand.com/en/Resistor_ladder</a>)</p>
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.dataconv.dac.</span></span><span class="sig-name descname"><span class="pre">dac_r2r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dflt_part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'r':</span> <span class="pre">Part('Device',</span> <span class="pre">'R',</span> <span class="pre">value=DFLT_RESISTANCE,</span> <span class="pre">e_series='E96',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Resistor_SMD:R_0603_1608Metric')}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/dataconv/dac.html#dac_r2r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.dataconv.dac.dac_r2r" title="Permalink to this definition">¶</a></dt>
+<dd><p>R-2R digital-to-analog converter.</p>
+<p>Creates an unbuffered R-2R DAC using a resistor ladder. (<a class="reference external" href="https://www.wikiwand.com/en/Resistor_ladder">https://www.wikiwand.com/en/Resistor_ladder</a>)
+The part dictionary contains a single resistor template that is instantiated using R and 2*R values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_bits</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – Number of bits of resolution.</p></li>
-<li><p><strong>r_val</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Base ladder resistor value. Defaults to 1 KOhm.</p></li>
-<li><p><strong>e_series</strong> (<em>string</em><em>, </em><em>optional</em>) – E-series of resistor value (E3, E6, E12, E24, E48, E96, E192). Defaults to “E96” (1%).</p></li>
-<li><p><strong>r_temp</strong> (<em>Part</em>) – Part template for creating resistors. Defaults to two-pin, surface-mount 0603 footprint.</p></li>
+<li><p><strong>part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</p></li>
+<li><p><strong>dflt_part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -91,10 +92,8 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vout</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VOUT&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gnd</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;GND&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dac</span> <span class="o">=</span> <span class="n">dac_r2r</span><span class="p">(</span><span class="n">n_bits</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">din</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dac</span><span class="o">.</span><span class="n">din</span> <span class="o">+=</span> <span class="n">din</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dac</span><span class="o">.</span><span class="n">gnd</span> <span class="o">+=</span> <span class="n">gnd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dac</span><span class="o">.</span><span class="n">vout</span> <span class="o">+=</span> <span class="n">vout</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dac</span><span class="p">[</span><span class="s2">&quot;din vout gnd&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">din</span><span class="p">,</span> <span class="n">vout</span><span class="p">,</span> <span class="n">gnd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span> 
 <span class="go">&#39;(...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">din</span><span class="p">)</span>
 <span class="go">3</span>
@@ -157,11 +156,11 @@
         <li class="right" >
           <a href="circuitsascode.dataconv.html" title="circuitsascode.dataconv package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="circuitsascode.dataconv.html" >circuitsascode.dataconv package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.dataconv.dac module</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.dataconv.dac module</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

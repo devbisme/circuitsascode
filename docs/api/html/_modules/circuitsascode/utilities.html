@@ -6,10 +6,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>circuitsascode.utilities &#8212; circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</title>
+    <title>circuitsascode.utilities &#8212; circuitsascode 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css" />
-
+    
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
@@ -23,7 +23,7 @@
     <![endif]-->
   </head><body>
     <h1 id="site-title"><a href="../../../../"><img src="../../../../images/slim_banner.png" width="100%"></a></h1>
-
+    
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -33,17 +33,17 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.utilities</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.utilities</a></li> 
       </ul>
-    </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <h1>Source code for circuitsascode.utilities</h1><div class="highlight"><pre>
 <span></span><span class="c1"># The MIT License (MIT) - Copyright (c) 2021 devbisme</span>
 
@@ -108,28 +108,32 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">units</span><span class="p">)</span><span class="o">.</span><span class="n">to_compact</span><span class="p">()</span></div>
 
 
-<span class="k">def</span> <span class="nf">_find_nearest</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dflt_unit</span><span class="p">,</span> <span class="n">e_series</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_find_nearest</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dflt_unit</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E24&quot;</span><span class="p">):</span>
 
-    <span class="c1"># Get E series of values.</span>
-    <span class="n">series</span> <span class="o">=</span> <span class="n">series_key_from_name</span><span class="p">(</span><span class="n">e_series</span><span class="p">)</span>
+    <span class="c1"># Get the value and E-series attributes if the passed-in argument is a Part.</span>
+    <span class="c1"># Otherwise, use the passed-in value and E-series.</span>
+    <span class="n">e_series</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;e_series&quot;</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
     <span class="c1"># Make sure value has units attached to it.</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">apply_units</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dflt_unit</span><span class="p">)</span>
 
-    <span class="c1"># Find E-series value nearest to the given value.</span>
-    <span class="n">v_near</span> <span class="o">=</span> <span class="n">eseries</span><span class="o">.</span><span class="n">find_nearest</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
-
-    <span class="c1"># Apply the Pint unit to the value.</span>
-    <span class="n">v_near</span> <span class="o">*=</span> <span class="n">v</span><span class="o">.</span><span class="n">units</span>
-
-    <span class="k">return</span> <span class="n">v_near</span>
+    <span class="c1"># Get E series of values.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">series_key_from_name</span><span class="p">(</span><span class="n">e_series</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="c1"># Unknown E-series, so just return the value unchanged.</span>
+        <span class="k">return</span> <span class="n">v</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Return the E-series value nearest to the given value.</span>
+        <span class="k">return</span> <span class="n">eseries</span><span class="o">.</span><span class="n">find_nearest</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">units</span>
 
 
 <div class="viewcode-block" id="find_nearest_r"><a class="viewcode-back" href="../../api/circuitsascode.utilities.html#circuitsascode.utilities.find_nearest_r">[docs]</a><span class="k">def</span> <span class="nf">find_nearest_r</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E24&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Find the nearest E-series resistor value to the given value.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        r (numeric, unit): Resistance as a number with or without an attached Pint Ohm unit.</span>
+<span class="sd">        r (numeric/Part, unit): Resistor Part or resistance as a number with or without an attached Pint Ohm unit.</span>
 <span class="sd">        e_series (string, optional): E-series of resistor values (E3, E6, E12, E24, E48, E96, E192). Defaults to &quot;E24&quot; (5%).</span>
 
 <span class="sd">    Returns:</span>
@@ -150,7 +154,7 @@
     <span class="sd">&quot;&quot;&quot;Find the nearest E-series capacitor value to the given value.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        c (numeric, unit): Capacitance as a number with or without an attached Pint nanofarad unit.</span>
+<span class="sd">        c (numeric/Part, unit): Capacitor Part or capacitance as a number with or without an attached Pint nanofarad unit.</span>
 <span class="sd">        e_series (string, optional): E-series of capacitor values (E3, E6, E12, E24, E48, E96, E192). Defaults to &quot;E24&quot; (5%).</span>
 
 <span class="sd">    Returns:</span>
@@ -196,9 +200,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.utilities</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.utilities</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

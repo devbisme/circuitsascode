@@ -6,10 +6,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>circuitsascode.simple.v_div module &#8212; circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</title>
+    <title>circuitsascode.simple.v_div module &#8212; circuitsascode 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
-
+    
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -25,7 +25,7 @@
     <![endif]-->
   </head><body>
     <h1 id="site-title"><a href="../../../"><img src="../../../images/slim_banner.png" width="100%"></a></h1>
-
+    
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -41,19 +41,19 @@
         <li class="right" >
           <a href="circuitsascode.simple.html" title="circuitsascode.simple package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="circuitsascode.simple.html" accesskey="U">circuitsascode.simple package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div module</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div module</a></li> 
       </ul>
-    </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <div class="section" id="module-circuitsascode.simple.v_div">
 <span id="circuitsascode-simple-v-div-module"></span><h1>circuitsascode.simple.v_div module<a class="headerlink" href="#module-circuitsascode.simple.v_div" title="Permalink to this headline">¶</a></h1>
 <p>This module provides both resistive and capacitive voltage dividers.</p>
@@ -70,23 +70,23 @@ is computed using this ratio.</p>
 </dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="circuitsascode.simple.v_div.v_div_c">
-<span class="sig-prename descclassname"><span class="pre">circuitsascode.simple.v_div.</span></span><span class="sig-name descname"><span class="pre">v_div_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span> <span class="pre">*</span> <span class="pre">units.nanofarad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E12'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Part('Device',</span> <span class="pre">'C',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Capacitor_SMD:C_0603_1608Metric')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/simple/v_div.html#v_div_c"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.simple.v_div.v_div_c" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.simple.v_div.</span></span><span class="sig-name descname"><span class="pre">v_div_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span> <span class="pre">*</span> <span class="pre">units.ufarad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dflt_part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'c':</span> <span class="pre">Part(lib='Device',</span> <span class="pre">name='C',</span> <span class="pre">e_series='E12',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Capacitor_SMD:C_0603_1608Metric')}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/simple/v_div.html#v_div_c"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.simple.v_div.v_div_c" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a capacitor voltage divider.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ratio</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Voltage division ratio in the range [0, 1].</p></li>
-<li><p><strong>c_total</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Total capacitance of both legs of the divider. Defaults to 1000 nanofarads.</p></li>
-<li><p><strong>e_series</strong> (<em>string</em><em>, </em><em>optional</em>) – E-series of capacitor values (E3, E6, E12, E24, E48, E96, E192). Defaults to “E12” (10%).</p></li>
-<li><p><strong>c_temp</strong> (<em>Part</em>) – Part template for creating divider capacitors. Defaults to two-pin, surface-mount 0603 footprint.</p></li>
+<li><p><strong>c_total</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Total capacitance of both legs of the divider. Defaults to 1 microfarad.</p></li>
+<li><p><strong>part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</p></li>
+<li><p><strong>dflt_part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>An Interface object with the following I/O</dt><dd><ul class="simple">
-<li><p>vin:  Input voltage to top leg of divider.</p></li>
+<li><p>vin:  Input voltage to upper leg of divider.</p></li>
 <li><p>vout: Output voltage from junction of upper &amp; lower legs of divider.</p></li>
-<li><p>gnd:  Reference voltage (usually ground) to bottom leg of divider.</p></li>
+<li><p>gnd:  Reference voltage (usually ground) to lower leg of divider.</p></li>
 </ul>
 </dd>
 </dl>
@@ -98,12 +98,12 @@ is computed using this ratio.</p>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">circuitsascode.simple.v_div</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span> <span class="o">=</span> <span class="n">v_div_c</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">c_total</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">nanofarad</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="s1">&#39;E24&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span> <span class="o">=</span> <span class="n">v_div_c</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">c_total</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">nanofarad</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vin</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VIN&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vout</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VOUT&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gnd</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;GND&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span><span class="p">[</span><span class="s2">&quot;vin vout gnd&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">vin</span><span class="p">,</span> <span class="n">vout</span><span class="p">,</span> <span class="n">gnd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span> 
 <span class="go">&#39;(...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vin</span><span class="p">)</span>
 <span class="go">1</span>
@@ -117,15 +117,15 @@ is computed using this ratio.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="circuitsascode.simple.v_div.v_div_r">
-<span class="sig-prename descclassname"><span class="pre">circuitsascode.simple.v_div.</span></span><span class="sig-name descname"><span class="pre">v_div_r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">units.kohm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E24'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Part('Device',</span> <span class="pre">'R',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Resistor_SMD:R_0603_1608Metric')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/simple/v_div.html#v_div_r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.simple.v_div.v_div_r" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.simple.v_div.</span></span><span class="sig-name descname"><span class="pre">v_div_r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">units.kohm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dflt_part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'r':</span> <span class="pre">Part(lib='Device',</span> <span class="pre">name='R',</span> <span class="pre">e_series='E24',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Resistor_SMD:R_0603_1608Metric')}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/simple/v_div.html#v_div_r"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.simple.v_div.v_div_r" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a resistor voltage divider.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ratio</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Voltage division ratio in the range [0, 1].</p></li>
 <li><p><strong>r_total</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Total resistance of both legs of the divider. Defaults to 10 KOhm.</p></li>
-<li><p><strong>e_series</strong> (<em>string</em><em>, </em><em>optional</em>) – E-series of resistor values (E3, E6, E12, E24, E48, E96, E192). Defaults to “E24” (5%).</p></li>
-<li><p><strong>r_temp</strong> (<em>Part</em>) – Part template for creating divider resistors. Defaults to two-pin, surface-mount 0603 footprint.</p></li>
+<li><p><strong>part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</p></li>
+<li><p><strong>dflt_part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -145,12 +145,12 @@ is computed using this ratio.</p>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">circuitsascode.simple.v_div</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span> <span class="o">=</span> <span class="n">v_div_r</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">r_total</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">kohm</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="s1">&#39;E12&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span> <span class="o">=</span> <span class="n">v_div_r</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">r_total</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">units</span><span class="o">.</span><span class="n">kohm</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vin</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VIN&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vout</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VOUT&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gnd</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;GND&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">div1</span><span class="p">[</span><span class="s2">&quot;vin vout gnd&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">vin</span><span class="p">,</span> <span class="n">vout</span><span class="p">,</span> <span class="n">gnd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span> 
 <span class="go">&#39;(...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vin</span><span class="p">)</span>
 <span class="go">1</span>
@@ -213,11 +213,11 @@ is computed using this ratio.</p>
         <li class="right" >
           <a href="circuitsascode.simple.html" title="circuitsascode.simple package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="circuitsascode.simple.html" >circuitsascode.simple package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div module</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div module</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

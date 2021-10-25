@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circuits as code - posts</title><link href="/circuitsascode/" rel="alternate"></link><link href="/circuitsascode/feeds/posts.atom.xml" rel="self"></link><id>/circuitsascode/</id><updated>2021-08-20T16:30:00-04:00</updated><entry><title>Why?</title><link href="/circuitsascode/why-this-site-2021-08-20.html" rel="alternate"></link><published>2021-08-20T16:30:00-04:00</published><updated>2021-08-20T16:30:00-04:00</updated><author><name>Dave Vandenbout</name></author><id>tag:None,2021-08-20:/circuitsascode/why-this-site-2021-08-20.html</id><summary type="html">&lt;p&gt;Why does &lt;em&gt;Circuits as Code&lt;/em&gt; exist?
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circuits as code - posts</title><link href="/circuitsascode/" rel="alternate"></link><link href="/circuitsascode/feeds/posts.atom.xml" rel="self"></link><id>/circuitsascode/</id><updated>2021-10-25T00:00:00-04:00</updated><entry><title>New Release - 0.0.2</title><link href="/circuitsascode/zero-zero-two-2021-10-25.html" rel="alternate"></link><published>2021-10-25T00:00:00-04:00</published><updated>2021-10-25T00:00:00-04:00</updated><author><name>Dave Vandenbout</name></author><id>tag:None,2021-10-25:/circuitsascode/zero-zero-two-2021-10-25.html</id><summary type="html">&lt;p&gt;Well, two months after my first release comes the second.
+This one adds an R-2R DAC and an adjustable voltage regulator.&lt;/p&gt;
+&lt;p&gt;Not much, you say? I agree. But other things were happening.
+While doing the R-2R DAC, I discovered a problem with how SKiDL handled interfaces.
+(That's one of the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Well, two months after my first release comes the second.
+This one adds an R-2R DAC and an adjustable voltage regulator.&lt;/p&gt;
+&lt;p&gt;Not much, you say? I agree. But other things were happening.
+While doing the R-2R DAC, I discovered a problem with how SKiDL handled interfaces.
+(That's one of the reasons I started circuitsascode: to help me test and debug SKiDL.)
+Correcting that bug caused another problem to appear with packages and I had to fix &lt;em&gt;that&lt;/em&gt;.
+If that wasn't enough, I decided to move the SKiDL blog from the Jekyll static-site generator to Pelican
+and then finally get the Sphinx documentation properly formatted.&lt;/p&gt;
+&lt;p&gt;In addition, I re-wrote the new and existing circuit modules to make it easier
+for a user to modify the circuits that get generated.
+I'll discuss how circuitsascode modules are structured in a separate post.&lt;/p&gt;
+&lt;p&gt;So not a lot appears to have happened, but progress continues under the surface.&lt;/p&gt;</content><category term="posts"></category></entry><entry><title>Why?</title><link href="/circuitsascode/why-this-site-2021-08-20.html" rel="alternate"></link><published>2021-08-20T16:30:00-04:00</published><updated>2021-08-20T16:30:00-04:00</updated><author><name>Dave Vandenbout</name></author><id>tag:None,2021-08-20:/circuitsascode/why-this-site-2021-08-20.html</id><summary type="html">&lt;p&gt;Why does &lt;em&gt;Circuits as Code&lt;/em&gt; exist?
 Couldn't this just as well have been a part of SKiDL?&lt;/p&gt;
 &lt;p&gt;Yes, maybe. But "circuits as code" is so much easier to remember.
 Nobody knows what "SKiDL" means.&lt;/p&gt;

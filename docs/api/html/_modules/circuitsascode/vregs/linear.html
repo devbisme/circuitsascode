@@ -6,10 +6,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>circuitsascode.vregs.linear &#8212; circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</title>
+    <title>circuitsascode.vregs.linear &#8212; circuitsascode 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-
+    
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
@@ -23,7 +23,7 @@
     <![endif]-->
   </head><body>
     <h1 id="site-title"><a href="../../../../../"><img src="../../../../../images/slim_banner.png" width="100%"></a></h1>
-
+    
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -33,17 +33,17 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear</a></li> 
       </ul>
-    </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <h1>Source code for circuitsascode.vregs.linear</h1><div class="highlight"><pre>
 <span></span><span class="c1"># The MIT License (MIT) - Copyright (c) 2021 devbisme</span>
 
@@ -51,132 +51,173 @@
 <span class="sd">This module provides circuits based upon linear voltage regulators.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">skidl</span> <span class="kn">import</span> <span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">Part</span><span class="p">,</span> <span class="n">SubCircuit</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">skidl</span> <span class="kn">import</span> <span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">Net</span><span class="p">,</span> <span class="n">Part</span><span class="p">,</span> <span class="n">SubCircuit</span><span class="p">,</span> <span class="n">generate_netlist</span>
 
 <span class="kn">from</span> <span class="nn">circuitsascode</span> <span class="kn">import</span> <span class="n">units</span>
-<span class="kn">from</span> <span class="nn">circuitsascode.utilities</span> <span class="kn">import</span> <span class="n">find_nearest_c</span><span class="p">,</span> <span class="n">find_nearest_r</span>
+<span class="kn">from</span> <span class="nn">circuitsascode.utilities</span> <span class="kn">import</span> <span class="n">apply_units</span><span class="p">,</span> <span class="n">find_nearest_c</span><span class="p">,</span> <span class="n">find_nearest_r</span>
+
+<span class="c1"># These are default values for the regulator&#39;s reference voltage and ADJ terminal current.</span>
+<span class="n">DFLT_V_REF</span> <span class="o">=</span> <span class="mf">1.25</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">volt</span>
+<span class="n">DFLT_I_ADJ</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">uamp</span>
+
+<span class="c1"># Sympy is used to derive the equations for the resistor divider values that set the</span>
+<span class="c1"># output voltage. Two sets of equations are derived: one with the ADJ terminal current != 0</span>
+<span class="c1"># and another with it set to zero. (The second set is needed because the first set</span>
+<span class="c1"># becomes indeterminate when the current goes to zero.)</span>
+<span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">i_adj</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">,</span> <span class="n">v_out</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span>
+    <span class="s2">&quot;r1, r2, r_total, i_adj, v_ref, v_out&quot;</span>
+<span class="p">)</span>
+<span class="n">r1_r2_i_adj_solutions</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">r_total</span> <span class="o">-</span> <span class="n">r1</span> <span class="o">-</span> <span class="n">r2</span><span class="p">,</span> <span class="o">-</span><span class="n">v_out</span> <span class="o">+</span> <span class="n">v_ref</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">r2</span> <span class="o">/</span> <span class="n">r1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i_adj</span> <span class="o">*</span> <span class="n">r2</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">r1_r2_solutions</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">r_total</span> <span class="o">-</span> <span class="n">r1</span> <span class="o">-</span> <span class="n">r2</span><span class="p">,</span> <span class="o">-</span><span class="n">v_out</span> <span class="o">+</span> <span class="n">v_ref</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">r2</span> <span class="o">/</span> <span class="n">r1</span><span class="p">)),</span> <span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">),</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Create functions for the R1/R2 resistor values when the ADJ terminal current != 0.</span>
+<span class="n">calc_r1_i_adj_val</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">,</span> <span class="n">i_adj</span><span class="p">),</span> <span class="n">r1_r2_i_adj_solutions</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">r1</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">calc_r2_i_adj_val</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">,</span> <span class="n">i_adj</span><span class="p">),</span> <span class="n">r1_r2_i_adj_solutions</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">r2</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Create functions for the R1/R2 resistor values when the ADJ terminal current == 0.</span>
+<span class="n">calc_r1_val</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">((</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">),</span> <span class="n">r1_r2_solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">r1</span><span class="p">])</span>
+<span class="n">calc_r2_val</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">((</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">),</span> <span class="n">r1_r2_solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">r2</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="adj_vreg"><a class="viewcode-back" href="../../../api/circuitsascode.vregs.linear.html#circuitsascode.vregs.linear.adj_vreg">[docs]</a><span class="nd">@SubCircuit</span>
 <span class="k">def</span> <span class="nf">adj_vreg</span><span class="p">(</span>
     <span class="n">v_out</span><span class="o">=</span><span class="mf">3.3</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">volts</span><span class="p">,</span>
     <span class="n">r_total</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">kohm</span><span class="p">,</span>
-    <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E24&quot;</span><span class="p">,</span>
-    <span class="n">vreg</span><span class="o">=</span><span class="n">Part</span><span class="p">(</span>
-        <span class="s2">&quot;Device&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Resistor_SMD:R_0603_1608Metric&quot;</span>
-    <span class="p">),</span>
+    <span class="n">part_dict</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">dflt_part_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;vreg&quot;</span><span class="p">:</span> <span class="n">Part</span><span class="p">(</span>
+            <span class="n">lib</span><span class="o">=</span><span class="s2">&quot;Regulator_Linear&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;AZ1117-ADJ&quot;</span><span class="p">,</span>
+            <span class="n">v_ref</span><span class="o">=</span><span class="n">DFLT_V_REF</span><span class="p">,</span>
+            <span class="n">i_adj</span><span class="o">=</span><span class="n">DFLT_I_ADJ</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
+            <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Package_TO_SOT_SMD:SOT-223-3_TabPin2&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">Part</span><span class="p">(</span>
+            <span class="n">lib</span><span class="o">=</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;R&quot;</span><span class="p">,</span>
+            <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E48&quot;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
+            <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Resistor_SMD:R_0603_1608Metric&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;c_in&quot;</span><span class="p">:</span> <span class="n">Part</span><span class="p">(</span>
+            <span class="n">lib</span><span class="o">=</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">ufarad</span><span class="p">,</span>
+            <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E12&quot;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
+            <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Capacitor_SMD:C_0603_1608Metric&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;c_out&quot;</span><span class="p">:</span> <span class="n">Part</span><span class="p">(</span>
+            <span class="n">lib</span><span class="o">=</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="mi">22</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">ufarad</span><span class="p">,</span>
+            <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E12&quot;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
+            <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Capacitor_SMD:C_0805_2012Metric&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">},</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a resistor voltage divider.</span>
+    <span class="sd">&quot;&quot;&quot;Linear voltage regulator.</span>
+
+<span class="sd">    Creates a voltage regulator with input/output filter capacitors and appropriately-sized resistors to set</span>
+<span class="sd">    the output voltage of an adjustable, three-terminal regulator.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        ratio (float): Voltage division ratio in the range [0, 1].</span>
-<span class="sd">        r_total (float, optional): Total resistance of both legs of the divider. Defaults to 10 KOhm.</span>
-<span class="sd">        e_series (string, optional): E-series of resistor values (E3, E6, E12, E24, E48, E96, E192). Defaults to &quot;E24&quot; (5%).</span>
-<span class="sd">        r_temp (Part): Part template for creating divider resistors. Defaults to two-pin, surface-mount 0603 footprint.</span>
+<span class="sd">        v_out (float): Desired output voltage of the regulator.</span>
+<span class="sd">        r_total (float, optional): Total resistance of the resistor divider that sets the output voltage. Defaults to 10 KOhm.</span>
+<span class="sd">        part_dict (dict, optional): Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</span>
+<span class="sd">        dflt_part_dict(dict, optional): Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Interface:</span>
 <span class="sd">        An Interface object containing the following I/O</span>
-<span class="sd">            * vin:  Input voltage to top leg of divider.</span>
-<span class="sd">            * vout: Output voltage from junction of upper &amp; lower legs of divider.</span>
-<span class="sd">            * gnd:  Reference voltage (usually ground) to bottom leg of divider.</span>
+<span class="sd">            * vin:  Unregulated input voltage.</span>
+<span class="sd">            * vout: Regulated output voltage.</span>
+<span class="sd">            * gnd:  Reference voltage (usually ground).</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; from circuitsascode.simple.v_div import *</span>
-<span class="sd">        &gt;&gt;&gt; div1 = v_div_r(ratio=0.3, r_total=100*units.kohm, e_series=&#39;E12&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; from circuitsascode.vregs.linear import adj_vreg</span>
+<span class="sd">        &gt;&gt;&gt; vrg = adj_vreg(v_out=2.5 * units.volt, r_total=100 * units.kohm)</span>
 <span class="sd">        &gt;&gt;&gt; vin = Net(&quot;VIN&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; vout = Net(&quot;VOUT&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; gnd = Net(&quot;GND&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; div1[&quot;vin vout gnd&quot;] += vin, vout, gnd</span>
+<span class="sd">        &gt;&gt;&gt; vrg[&quot;vin vout gnd&quot;] += vin, vout, gnd</span>
 <span class="sd">        &gt;&gt;&gt; generate_netlist() # doctest: +ELLIPSIS</span>
 <span class="sd">        &#39;(...</span>
 <span class="sd">        &gt;&gt;&gt; len(vin)</span>
-<span class="sd">        1</span>
-<span class="sd">        &gt;&gt;&gt; len(vout)</span>
 <span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; len(vout)</span>
+<span class="sd">        3</span>
 <span class="sd">        &gt;&gt;&gt; len(gnd)</span>
-<span class="sd">        1</span>
+<span class="sd">        3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ratio</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+    <span class="c1"># Create the dict of parts to be used in the circuit, starting with the default parts</span>
+    <span class="c1"># and then overwriting them with any user-supplied parts.</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="n">dflt_part_dict</span><span class="p">,</span> <span class="n">part_dict</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
-    <span class="c1"># Create lower leg of resistor divider.</span>
-    <span class="n">r_low</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">r_l</span> <span class="o">=</span> <span class="n">r_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">r_low</span><span class="p">)</span>
+    <span class="c1"># Instantiate the needed parts from the part dictionary.</span>
+    <span class="n">vreg</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="s2">&quot;vreg&quot;</span><span class="p">]()</span>  <span class="c1"># Adjustable voltage regulator.</span>
+    <span class="n">c_in</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="s2">&quot;c_in&quot;</span><span class="p">]()</span>  <span class="c1"># Input filter capacitor.</span>
+    <span class="n">c_out</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="s2">&quot;c_out&quot;</span><span class="p">]()</span>  <span class="c1"># Output filter capacitor.</span>
+    <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">parts</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]</span>  <span class="c1"># Resistors for setting the output voltage.</span>
 
-    <span class="c1"># Create upper leg of resistor divider.</span>
-    <span class="n">r_high</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span> <span class="o">*</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">r_h</span> <span class="o">=</span> <span class="n">r_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">r_high</span><span class="p">)</span>
+    <span class="c1"># Get the reference voltage and ADJ terminal current for the adjustable regulator.</span>
+    <span class="c1"># Use default values if they aren&#39;t provided by the Part object.</span>
+    <span class="n">v_ref</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">vreg</span><span class="p">,</span> <span class="s2">&quot;v_ref&quot;</span><span class="p">,</span> <span class="n">DFLT_V_REF</span><span class="p">)</span>
+    <span class="n">i_adj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">vreg</span><span class="p">,</span> <span class="s2">&quot;i_adj&quot;</span><span class="p">,</span> <span class="n">DFLT_I_ADJ</span><span class="p">)</span>
 
-    <span class="c1"># Attach upper and lower legs of resistor divider.</span>
-    <span class="n">r_h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">r_l</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="c1"># The regulated output must be greater than the regulator&#39;s reference voltage.</span>
+    <span class="n">v_out</span> <span class="o">=</span> <span class="n">apply_units</span><span class="p">(</span><span class="n">v_out</span><span class="p">,</span> <span class="n">units</span><span class="o">.</span><span class="n">volt</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">v_out</span> <span class="o">&gt;</span> <span class="n">v_ref</span>
 
-    <span class="c1"># Return an interface to the resistor divider with:</span>
-    <span class="c1">#    vin: Input voltage to top leg of divider.</span>
-    <span class="c1">#    vout: Output voltage from junction of upper &amp; lower legs of divider.</span>
-    <span class="c1">#    gnd: Reference voltage (usually ground) to bottom leg of divider.</span>
-    <span class="k">return</span> <span class="n">Interface</span><span class="p">(</span><span class="n">vin</span><span class="o">=</span><span class="n">r_h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vout</span><span class="o">=</span><span class="n">r_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gnd</span><span class="o">=</span><span class="n">r_l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
+    <span class="c1"># The total resistance of both resistors must be greater than zero.</span>
+    <span class="n">r_total</span> <span class="o">=</span> <span class="n">apply_units</span><span class="p">(</span><span class="n">r_total</span><span class="p">,</span> <span class="n">units</span><span class="o">.</span><span class="n">kohm</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">r_total</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
+    <span class="c1"># Compute the resistor values needed to create the regulated output voltage.</span>
+    <span class="k">if</span> <span class="n">i_adj</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">v_out</span> <span class="o">/</span> <span class="n">r_total</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">:</span>
+        <span class="c1"># Ignore i_adj because it is small compared to the current thru the resistors.</span>
+        <span class="n">r1</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">calc_r1_val</span><span class="p">(</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">)</span>
+        <span class="n">r2</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">calc_r2_val</span><span class="p">(</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># i_adj cannot be ignored because it is large enough to affect the output voltage.</span>
+        <span class="n">r1</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">calc_r1_i_adj_val</span><span class="p">(</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">,</span> <span class="n">i_adj</span><span class="p">)</span>
+        <span class="n">r2</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">calc_r2_i_adj_val</span><span class="p">(</span><span class="n">v_out</span><span class="p">,</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">v_ref</span><span class="p">,</span> <span class="n">i_adj</span><span class="p">)</span>
 
-<div class="viewcode-block" id="v_div_c"><a class="viewcode-back" href="../../../api/circuitsascode.vregs.linear.html#circuitsascode.vregs.linear.v_div_c">[docs]</a><span class="nd">@SubCircuit</span>
-<span class="k">def</span> <span class="nf">v_div_c</span><span class="p">(</span>
-    <span class="n">ratio</span><span class="p">,</span>
-    <span class="n">c_total</span><span class="o">=</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">nanofarad</span><span class="p">,</span>
-    <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E12&quot;</span><span class="p">,</span>
-    <span class="n">c_temp</span><span class="o">=</span><span class="n">Part</span><span class="p">(</span>
-        <span class="s2">&quot;Device&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Capacitor_SMD:C_0603_1608Metric&quot;</span>
-    <span class="p">),</span>
-<span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a capacitor voltage divider.</span>
+    <span class="c1"># Round the resistor and capacitor values to their nearest E-series values.</span>
+    <span class="n">r1</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">(</span><span class="n">r1</span><span class="p">)</span>
+    <span class="n">r2</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+    <span class="n">c_in</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">(</span><span class="n">c_in</span><span class="p">)</span>
+    <span class="n">c_out</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">(</span><span class="n">c_out</span><span class="p">)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        ratio (float): Voltage division ratio in the range [0, 1].</span>
-<span class="sd">        c_total (float, optional): Total capacitance of both legs of the divider. Defaults to 1000 nanofarads.</span>
-<span class="sd">        e_series (string, optional): E-series of capacitor values (E3, E6, E12, E24, E48, E96, E192). Defaults to &quot;E12&quot; (10%).</span>
-<span class="sd">        c_temp (Part): Part template for creating divider capacitors. Defaults to two-pin, surface-mount 0603 footprint.</span>
+    <span class="c1"># Connect the parts to create the voltage regulator.</span>
+    <span class="n">gnd</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        Interface:</span>
-<span class="sd">        An Interface object with the following I/O</span>
-<span class="sd">            * vin:  Input voltage to top leg of divider.</span>
-<span class="sd">            * vout: Output voltage from junction of upper &amp; lower legs of divider.</span>
-<span class="sd">            * gnd:  Reference voltage (usually ground) to bottom leg of divider.</span>
+    <span class="c1"># Attach filter capacitors to the input and output.</span>
+    <span class="n">vreg</span><span class="o">.</span><span class="n">VI</span> <span class="o">&amp;</span> <span class="n">c_in</span> <span class="o">&amp;</span> <span class="n">gnd</span>
+    <span class="n">vreg</span><span class="o">.</span><span class="n">VO</span> <span class="o">&amp;</span> <span class="n">c_out</span> <span class="o">&amp;</span> <span class="n">gnd</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; from circuitsascode.simple.v_div import *</span>
-<span class="sd">        &gt;&gt;&gt; div1 = v_div_c(ratio=0.3, c_total=100*units.nanofarad, e_series=&#39;E24&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; vin = Net(&quot;VIN&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; vout = Net(&quot;VOUT&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; gnd = Net(&quot;GND&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; div1[&quot;vin vout gnd&quot;] += vin, vout, gnd</span>
-<span class="sd">        &gt;&gt;&gt; generate_netlist() # doctest: +ELLIPSIS</span>
-<span class="sd">        &#39;(...</span>
-<span class="sd">        &gt;&gt;&gt; len(vin)</span>
-<span class="sd">        1</span>
-<span class="sd">        &gt;&gt;&gt; len(vout)</span>
-<span class="sd">        2</span>
-<span class="sd">        &gt;&gt;&gt; len(gnd)</span>
-<span class="sd">        1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Attach resistor divider from the output to the ADJ pin and then to ground.</span>
+    <span class="n">vreg</span><span class="o">.</span><span class="n">VO</span> <span class="o">&amp;</span> <span class="n">r1</span> <span class="o">&amp;</span> <span class="n">vreg</span><span class="o">.</span><span class="n">ADJ</span> <span class="o">&amp;</span> <span class="n">r2</span> <span class="o">&amp;</span> <span class="n">gnd</span>
 
-    <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ratio</span> <span class="o">&lt;=</span> <span class="mi">1</span>
-
-    <span class="c1"># Create lower leg of capacitor divider.</span>
-    <span class="n">c_low</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">c_l</span> <span class="o">=</span> <span class="n">c_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">c_low</span><span class="p">)</span>
-
-    <span class="c1"># Create upper leg of capacitor divider.</span>
-    <span class="n">c_high</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="n">c_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">c_h</span> <span class="o">=</span> <span class="n">c_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">c_high</span><span class="p">)</span>
-
-    <span class="c1"># Attach upper and lower legs of capacitor divider.</span>
-    <span class="n">c_h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">c_l</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-
-    <span class="c1"># Return an interface to the capacitor divider with:</span>
-    <span class="c1">#    vin: Input voltage to top leg of divider.</span>
-    <span class="c1">#    vout: Output voltage from junction of upper &amp; lower legs of divider.</span>
-    <span class="c1">#    gnd: Reference voltage (usually ground) to bottom leg of divider.</span>
-    <span class="k">return</span> <span class="n">Interface</span><span class="p">(</span><span class="n">vin</span><span class="o">=</span><span class="n">c_h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vout</span><span class="o">=</span><span class="n">c_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gnd</span><span class="o">=</span><span class="n">c_l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
+    <span class="c1"># Return an interface to the voltage regulator with:</span>
+    <span class="c1">#    vin: Unregulated input voltage.</span>
+    <span class="c1">#    vout: Regulated output voltage.</span>
+    <span class="c1">#    gnd: Reference voltage (usually ground).</span>
+    <span class="k">return</span> <span class="n">Interface</span><span class="p">(</span><span class="n">vin</span><span class="o">=</span><span class="n">vreg</span><span class="o">.</span><span class="n">VI</span><span class="p">,</span> <span class="n">vout</span><span class="o">=</span><span class="n">vreg</span><span class="o">.</span><span class="n">VO</span><span class="p">,</span> <span class="n">gnd</span><span class="o">=</span><span class="n">gnd</span><span class="p">)</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -208,9 +249,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.post1.dev33+ge7e98bd.d20210924 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
