@@ -39,6 +39,7 @@ setup(
     version=__version__,
     description="A collection of SKiDL modules for common electronic circuits.",
     long_description=readme + "\n\n" + history,
+    long_description_content_type="text/markdown",
     author=__author__,
     author_email=__email__,
     url="https://github.com/devbisme/circuitsascode",
