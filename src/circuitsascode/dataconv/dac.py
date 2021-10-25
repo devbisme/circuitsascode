@@ -9,24 +9,35 @@ from skidl import TEMPLATE, Bus, Interface, Net, Part, SubCircuit, generate_netl
 from circuitsascode import units
 from circuitsascode.utilities import find_nearest_c, find_nearest_r
 
+# Set default resistor value and precision for the R2R DAC.
+DFLT_RESISTANCE = 1.0 * units.kohm
+DFLT_E_SERIES = "E96"
+
 
 @SubCircuit
 def dac_r2r(
     n_bits=5,
-    r_val=1000 * units.ohm,
-    e_series="E96",
-    r_temp=Part(
-        "Device", "R", dest=TEMPLATE, footprint="Resistor_SMD:R_0603_1608Metric"
-    ),
+    part_dict={},
+    dflt_part_dict={
+        "r": Part(
+            "Device",
+            "R",
+            value=DFLT_RESISTANCE,
+            e_series="E96",
+            dest=TEMPLATE,
+            footprint="Resistor_SMD:R_0603_1608Metric",
+        ),
+    },
 ):
-    """
+    """R-2R digital-to-analog converter.
+
     Creates an unbuffered R-2R DAC using a resistor ladder. (https://www.wikiwand.com/en/Resistor_ladder)
+    The part dictionary contains a single resistor template that is instantiated using R and 2*R values.
 
     Args:
         n_bits (int, optional): Number of bits of resolution.
-        r_val (float, optional): Base ladder resistor value. Defaults to 1 KOhm.
-        e_series (string, optional): E-series of resistor value (E3, E6, E12, E24, E48, E96, E192). Defaults to "E96" (1%).
-        r_temp (Part): Part template for creating resistors. Defaults to two-pin, surface-mount 0603 footprint.
+        part_dict (dict, optional): Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.
+        dflt_part_dict(dict, optional): Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.
 
     Returns:
         Interface:
@@ -41,9 +52,7 @@ def dac_r2r(
         >>> vout = Net("VOUT")
         >>> gnd = Net("GND")
         >>> dac = dac_r2r(n_bits=len(din))
-        >>> dac.din += din
-        >>> dac.gnd += gnd
-        >>> dac.vout += vout
+        >>> dac["din vout gnd"] += din, vout, gnd
         >>> generate_netlist() # doctest: +ELLIPSIS
         '(...
         >>> len(din)
@@ -57,11 +66,18 @@ def dac_r2r(
     # DAC must have more than 1 bit of resolution, otherwise what's the point?
     assert n_bits > 1
 
+    # Create the dict of parts to be used in the circuit, starting with the default parts
+    # and then overwriting them with any user-supplied parts.
+    parts = {k: v for d in [dflt_part_dict, part_dict] for k, v in d.items()}
+
     # Set R and 2R resistor templates to the nearest standard resistor values.
+    r_t = parts["r"]  # Base reistor template.
+    r_val = getattr(r_t, "value", DFLT_RESISTANCE)
+    e_series = getattr(r_t, "e_series", DFLT_E_SERIES)
     r1_val = find_nearest_r(r_val, e_series)
     r2_val = find_nearest_r(2 * r1_val, e_series)
-    r1_t = r_temp(dest=TEMPLATE, value=r1_val)
-    r2_t = r_temp(dest=TEMPLATE, value=r2_val)
+    r1_t = r_t(dest=TEMPLATE, value=r1_val)
+    r2_t = r_t(dest=TEMPLATE, value=r2_val)
 
     gnd = Net()  # Ground reference.
     din = Bus(n_bits)  # Digital input bus.
