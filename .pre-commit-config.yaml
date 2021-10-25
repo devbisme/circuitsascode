@@ -1,4 +1,4 @@
-exclude: '^docs/conf.py|^docs/pelicansite'
+exclude: '^docs|^docsrc'
 
 repos:
 - repo: git://github.com/pre-commit/pre-commit-hooks
