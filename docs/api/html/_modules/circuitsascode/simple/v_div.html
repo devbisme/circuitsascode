@@ -6,10 +6,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>circuitsascode.simple.v_div &#8212; circuitsascode 0.0.1.post1.dev0+gb79e3d5.d20210827 documentation</title>
+    <title>circuitsascode.simple.v_div &#8212; circuitsascode 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-
+    
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
@@ -23,7 +23,7 @@
     <![endif]-->
   </head><body>
     <h1 id="site-title"><a href="../../../../../"><img src="../../../../../images/slim_banner.png" width="100%"></a></h1>
-
+    
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -33,17 +33,17 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.1.post1.dev0+gb79e3d5.d20210827 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div</a></li> 
       </ul>
-    </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <h1>Source code for circuitsascode.simple.v_div</h1><div class="highlight"><pre>
 <span></span><span class="c1"># The MIT License (MIT) - Copyright (c) 2021 devbisme</span>
 
@@ -60,7 +60,7 @@
 <span class="sd">    * and a resistor/capacitor part template that&#39;s used to instantiate both legs of the divider.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">skidl</span> <span class="kn">import</span> <span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">Part</span><span class="p">,</span> <span class="n">SubCircuit</span>
+<span class="kn">from</span> <span class="nn">skidl</span> <span class="kn">import</span> <span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">Net</span><span class="p">,</span> <span class="n">Part</span><span class="p">,</span> <span class="n">SubCircuit</span><span class="p">,</span> <span class="n">generate_netlist</span>
 
 <span class="kn">from</span> <span class="nn">circuitsascode</span> <span class="kn">import</span> <span class="n">units</span>
 <span class="kn">from</span> <span class="nn">circuitsascode.utilities</span> <span class="kn">import</span> <span class="n">find_nearest_c</span><span class="p">,</span> <span class="n">find_nearest_r</span>
@@ -70,18 +70,24 @@
 <span class="k">def</span> <span class="nf">v_div_r</span><span class="p">(</span>
     <span class="n">ratio</span><span class="p">,</span>
     <span class="n">r_total</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">kohm</span><span class="p">,</span>
-    <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E24&quot;</span><span class="p">,</span>
-    <span class="n">r_temp</span><span class="o">=</span><span class="n">Part</span><span class="p">(</span>
-        <span class="s2">&quot;Device&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Resistor_SMD:R_0603_1608Metric&quot;</span>
-    <span class="p">),</span>
+    <span class="n">part_dict</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">dflt_part_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">Part</span><span class="p">(</span>
+            <span class="n">lib</span><span class="o">=</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;R&quot;</span><span class="p">,</span>
+            <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E24&quot;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
+            <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Resistor_SMD:R_0603_1608Metric&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">},</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates a resistor voltage divider.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        ratio (float): Voltage division ratio in the range [0, 1].</span>
 <span class="sd">        r_total (float, optional): Total resistance of both legs of the divider. Defaults to 10 KOhm.</span>
-<span class="sd">        e_series (string, optional): E-series of resistor values (E3, E6, E12, E24, E48, E96, E192). Defaults to &quot;E24&quot; (5%).</span>
-<span class="sd">        r_temp (Part): Part template for creating divider resistors. Defaults to two-pin, surface-mount 0603 footprint.</span>
+<span class="sd">        part_dict (dict, optional): Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</span>
+<span class="sd">        dflt_part_dict(dict, optional): Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Interface:</span>
@@ -92,7 +98,7 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from circuitsascode.simple.v_div import *</span>
-<span class="sd">        &gt;&gt;&gt; div1 = v_div_r(ratio=0.3, r_total=100*units.kohm, e_series=&#39;E12&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; div1 = v_div_r(ratio=0.3, r_total=100*units.kohm)</span>
 <span class="sd">        &gt;&gt;&gt; vin = Net(&quot;VIN&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; vout = Net(&quot;VOUT&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; gnd = Net(&quot;GND&quot;)</span>
@@ -109,51 +115,64 @@
 
     <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ratio</span> <span class="o">&lt;=</span> <span class="mi">1</span>
 
-    <span class="c1"># Create lower leg of resistor divider.</span>
-    <span class="n">r_low</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">r_l</span> <span class="o">=</span> <span class="n">r_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">r_low</span><span class="p">)</span>
+    <span class="c1"># Create the dict of parts to be used in the circuit, starting with the default parts</span>
+    <span class="c1"># and then overwriting them with any user-supplied parts.</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="n">dflt_part_dict</span><span class="p">,</span> <span class="n">part_dict</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
-    <span class="c1"># Create upper leg of resistor divider.</span>
-    <span class="n">r_high</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span> <span class="o">*</span> <span class="n">r_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">r_h</span> <span class="o">=</span> <span class="n">r_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">r_high</span><span class="p">)</span>
+    <span class="c1"># Instantiate the needed parts from the part dictionary.</span>
+    <span class="n">r_u</span><span class="p">,</span> <span class="n">r_l</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">parts</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]</span>  <span class="c1"># Upper and lower resistors for setting the voltage.</span>
 
-    <span class="c1"># Attach upper and lower legs of resistor divider.</span>
-    <span class="n">r_h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">r_l</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="c1"># Set the resistance of the lower leg of the divider.</span>
+    <span class="n">r_l</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">r_total</span>
+    <span class="n">r_l</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">(</span><span class="n">r_l</span><span class="p">)</span>
 
-    <span class="c1"># Return an interface to the resistor divider with:</span>
-    <span class="c1">#    vin: Input voltage to top leg of divider.</span>
+    <span class="c1"># Set the resistance of the upper leg of the divider.</span>
+    <span class="n">r_u</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span> <span class="o">*</span> <span class="n">r_total</span>
+    <span class="n">r_u</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">(</span><span class="n">r_u</span><span class="p">)</span>
+
+    <span class="c1"># Attach upper and lower legs of divider.</span>
+    <span class="n">r_u</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">r_l</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># Return an interface to the divider with:</span>
+    <span class="c1">#    vin: Input voltage to upper leg of divider.</span>
     <span class="c1">#    vout: Output voltage from junction of upper &amp; lower legs of divider.</span>
-    <span class="c1">#    gnd: Reference voltage (usually ground) to bottom leg of divider.</span>
-    <span class="k">return</span> <span class="n">Interface</span><span class="p">(</span><span class="n">vin</span><span class="o">=</span><span class="n">r_h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vout</span><span class="o">=</span><span class="n">r_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gnd</span><span class="o">=</span><span class="n">r_l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
+    <span class="c1">#    gnd: Reference voltage (usually ground) to lower leg of divider.</span>
+    <span class="k">return</span> <span class="n">Interface</span><span class="p">(</span><span class="n">vin</span><span class="o">=</span><span class="n">r_u</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vout</span><span class="o">=</span><span class="n">r_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gnd</span><span class="o">=</span><span class="n">r_l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="v_div_c"><a class="viewcode-back" href="../../../api/circuitsascode.simple.v_div.html#circuitsascode.simple.v_div.v_div_c">[docs]</a><span class="nd">@SubCircuit</span>
 <span class="k">def</span> <span class="nf">v_div_c</span><span class="p">(</span>
     <span class="n">ratio</span><span class="p">,</span>
-    <span class="n">c_total</span><span class="o">=</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">nanofarad</span><span class="p">,</span>
-    <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E12&quot;</span><span class="p">,</span>
-    <span class="n">c_temp</span><span class="o">=</span><span class="n">Part</span><span class="p">(</span>
-        <span class="s2">&quot;Device&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Capacitor_SMD:C_0603_1608Metric&quot;</span>
-    <span class="p">),</span>
+    <span class="n">c_total</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">ufarad</span><span class="p">,</span>
+    <span class="n">part_dict</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">dflt_part_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="n">Part</span><span class="p">(</span>
+            <span class="n">lib</span><span class="o">=</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">,</span>
+            <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E12&quot;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
+            <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Capacitor_SMD:C_0603_1608Metric&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">},</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates a capacitor voltage divider.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        ratio (float): Voltage division ratio in the range [0, 1].</span>
-<span class="sd">        c_total (float, optional): Total capacitance of both legs of the divider. Defaults to 1000 nanofarads.</span>
-<span class="sd">        e_series (string, optional): E-series of capacitor values (E3, E6, E12, E24, E48, E96, E192). Defaults to &quot;E12&quot; (10%).</span>
-<span class="sd">        c_temp (Part): Part template for creating divider capacitors. Defaults to two-pin, surface-mount 0603 footprint.</span>
+<span class="sd">        c_total (float, optional): Total capacitance of both legs of the divider. Defaults to 1 microfarad.</span>
+<span class="sd">        part_dict (dict, optional): Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</span>
+<span class="sd">        dflt_part_dict(dict, optional): Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Interface:</span>
 <span class="sd">        An Interface object with the following I/O</span>
-<span class="sd">            * vin:  Input voltage to top leg of divider.</span>
+<span class="sd">            * vin:  Input voltage to upper leg of divider.</span>
 <span class="sd">            * vout: Output voltage from junction of upper &amp; lower legs of divider.</span>
-<span class="sd">            * gnd:  Reference voltage (usually ground) to bottom leg of divider.</span>
+<span class="sd">            * gnd:  Reference voltage (usually ground) to lower leg of divider.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from circuitsascode.simple.v_div import *</span>
-<span class="sd">        &gt;&gt;&gt; div1 = v_div_c(ratio=0.3, c_total=100*units.nanofarad, e_series=&#39;E24&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; div1 = v_div_c(ratio=0.3, c_total=100*units.nanofarad)</span>
 <span class="sd">        &gt;&gt;&gt; vin = Net(&quot;VIN&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; vout = Net(&quot;VOUT&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; gnd = Net(&quot;GND&quot;)</span>
@@ -170,22 +189,29 @@
 
     <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ratio</span> <span class="o">&lt;=</span> <span class="mi">1</span>
 
-    <span class="c1"># Create lower leg of capacitor divider.</span>
-    <span class="n">c_low</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">c_l</span> <span class="o">=</span> <span class="n">c_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">c_low</span><span class="p">)</span>
+    <span class="c1"># Create the dict of parts to be used in the circuit, starting with the default parts</span>
+    <span class="c1"># and then overwriting them with any user-supplied parts.</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="n">dflt_part_dict</span><span class="p">,</span> <span class="n">part_dict</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
-    <span class="c1"># Create upper leg of capacitor divider.</span>
-    <span class="n">c_high</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="n">c_total</span><span class="p">,</span> <span class="n">e_series</span><span class="p">)</span>
-    <span class="n">c_h</span> <span class="o">=</span> <span class="n">c_temp</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">c_high</span><span class="p">)</span>
+    <span class="c1"># Instantiate the needed parts from the part dictionary.</span>
+    <span class="n">c_u</span><span class="p">,</span> <span class="n">c_l</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">parts</span><span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">]</span>  <span class="c1"># Upper and lower capacitors for setting the voltage.</span>
 
-    <span class="c1"># Attach upper and lower legs of capacitor divider.</span>
-    <span class="n">c_h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">c_l</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="c1"># Set the capacitance of the lower leg of the divider.</span>
+    <span class="n">c_l</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_total</span>
+    <span class="n">c_l</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">(</span><span class="n">c_l</span><span class="p">)</span>
 
-    <span class="c1"># Return an interface to the capacitor divider with:</span>
-    <span class="c1">#    vin: Input voltage to top leg of divider.</span>
+    <span class="c1"># Set the capacitance of the upper leg of the divider.</span>
+    <span class="n">c_u</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="n">c_total</span>
+    <span class="n">c_u</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_c</span><span class="p">(</span><span class="n">c_u</span><span class="p">)</span>
+
+    <span class="c1"># Attach upper and lower legs of the divider.</span>
+    <span class="n">c_u</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">c_l</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># Return an interface to the divider with:</span>
+    <span class="c1">#    vin: Input voltage to upper leg of divider.</span>
     <span class="c1">#    vout: Output voltage from junction of upper &amp; lower legs of divider.</span>
     <span class="c1">#    gnd: Reference voltage (usually ground) to bottom leg of divider.</span>
-    <span class="k">return</span> <span class="n">Interface</span><span class="p">(</span><span class="n">vin</span><span class="o">=</span><span class="n">c_h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vout</span><span class="o">=</span><span class="n">c_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gnd</span><span class="o">=</span><span class="n">c_l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="n">Interface</span><span class="p">(</span><span class="n">vin</span><span class="o">=</span><span class="n">c_u</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vout</span><span class="o">=</span><span class="n">c_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gnd</span><span class="o">=</span><span class="n">c_l</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -217,9 +243,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.1.post1.dev0+gb79e3d5.d20210827 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.simple.v_div</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

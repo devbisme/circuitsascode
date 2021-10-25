@@ -5,3 +5,11 @@ circuitsascode.dataconv package
    :members:
    :undoc-members:
    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   circuitsascode.dataconv.dac

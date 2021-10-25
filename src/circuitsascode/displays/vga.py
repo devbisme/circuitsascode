@@ -1,26 +1,26 @@
 # The MIT License (MIT) - Copyright (c) 2021 xesscorp
 
-import skidl
-from casc import units
-from skidl import (  # generate_pcb
-    ERC,
-    NC,
-    POWER,
-    TEMPLATE,
-    Bus,
-    Interface,
-    Net,
-    Part,
-    SubCircuit,
-    generate_netlist,
-)
+from skidl import TEMPLATE, Bus, Interface, Net, Part, SubCircuit
 
-import circuitsascode as casc
+from circuitsascode import units
 from circuitsascode.utilities import apply_units, find_nearest_r
 
 
 @SubCircuit
-def vga(rgb=None, e_series="E12", logic_lvl=3.3 * units.volts):
+def vga(
+    rgb=None,
+    logic_lvl=3.3 * units.volts,
+    part_dict={},
+    dflt_part_dict={
+        "rn": Part(
+            "Device",
+            "R_Pack04",
+            dest=TEMPLATE,
+            e_series="E12",
+            footprint="Resistor_SMD:R_Array_Concave_4x0603",
+        ),
+    },
+):
     """Analog-RGB VGA port driven by red, grn, blu digital color buses.
 
     Takes list of red, green and blue bus widths and creates a resistor network
@@ -29,8 +29,9 @@ def vga(rgb=None, e_series="E12", logic_lvl=3.3 * units.volts):
 
     Args:
         rgb (list, optional): List of integer widths for the red, green and blue buses. Defaults to (3, 3, 3).
-        e_series (str, optional): E-series of resistor values (E3, E6, E12, E24, E48, E96, E192). Defaults to "E12" (10%).
         logic_lvl (float, optional): V_hi voltage for digital signals. Defaults to 3.3V.
+        part_dict (dict, optional): Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.
+        dflt_part_dict(dict, optional): Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.
 
     Returns:
         Interface:
@@ -55,6 +56,10 @@ def vga(rgb=None, e_series="E12", logic_lvl=3.3 * units.volts):
         >>> vga1.gnd += gnd
     """
 
+    # Create the dict of parts to be used in the circuit, starting with the default parts
+    # and then overwriting them with any user-supplied parts.
+    parts = {**dflt_part_dict, **part_dict}
+
     # Substitute default RGB bus widths if needed.
     if rgb is None:
         rgb = (3, 3, 3)
@@ -69,45 +74,44 @@ def vga(rgb=None, e_series="E12", logic_lvl=3.3 * units.volts):
     # Create the VGA interface circuitry.
     # _vga_subckt(red, grn, blu, hsync, vsync, gnd, e_series=e_series, logic_lvl=logic_lvl)
 
-    # Determine the color depth by finding the max width of the digital color buses.
-    # (Note that the color buses don't have to be the same width.)
-    depth = max(rgb)
+    # Determine the color width by finding the max width of the digital color buses.
+    # (Note that the color buses don't all have to be the same width.)
+    width = max(rgb)
 
-    # Add extra bus lines to any bus that's smaller than the depth and
+    # Add extra bus lines to any bus that's smaller than the width and
     # connect these extra lines to the original LSB bit of the bus.
-    exp_red = Bus([red[0] for _ in range(depth - len(red))], red[:])
-    exp_grn = Bus([grn[0] for _ in range(depth - len(grn))], grn[:])
-    exp_blu = Bus([blu[0] for _ in range(depth - len(blu))], blu[:])
+    exp_red = Bus([red[0] for _ in range(width - len(red))], red[:])
+    exp_grn = Bus([grn[0] for _ in range(width - len(grn))], grn[:])
+    exp_blu = Bus([blu[0] for _ in range(width - len(blu))], blu[:])
 
-    # Calculate the resistor weights to support the given color depth.
+    #########################################################################
+    # Calculate the resistor weights to support the given color width.
     vga_input_impedance = 75.0 * units.ohms  # Impedance of VGA analog inputs.
     vga_analog_max = 0.7 * units.volts  # Maximum brightness color voltage.
+
     # Compute the resistance of the upper leg of the voltage divider that will
     # drop the logic_lvl to the vga_analog_max level if the lower leg has
     # a resistance of vga_input_impedance.
     R = (logic_lvl - vga_analog_max) * vga_input_impedance / vga_analog_max
+
     # The basic weight is R * (1 + 1/2 + 1/4 + ... + 1/2**(width-1))
-    r = R * sum([1.0 / 2 ** n for n in range(depth)])
+    r = R * sum([1.0 / 2 ** n for n in range(width)])
+
     # The most significant color bit has a weight of r. The next bit has a weight
     # of 2r. The next bit has a weight of 4r, and so on. The weights are arranged
     # in decreasing order so the least significant weight is at the start of the list.
-    weights = [r * 2 ** n for n in reversed(range(depth))]
+    weights = [r * 2 ** n for n in reversed(range(width))]
 
-    # Convert resistor weights into standard values.
-    weights = [find_nearest_r(w, e_series=e_series) for w in weights]
-
-    # Quad resistor packs are used to create weighted sums of the digital
-    # signals on the red, green and blue buses. (One resistor in each pack
+    # Quad resistor networks are used to create weighted sums of the digital
+    # signals on the red, green and blue buses. (One resistor in each network
     # will not be used since there are only three colors.)
-    res_network = Part(
-        lib="Device",
-        name="R_Pack04",
-        footprint="Resistor_SMD:R_Array_Concave_4x0603",
-        dest=TEMPLATE,
-    )
+    # So create a list of resistor networks, one for each weight.
+    res = parts["rn"](value=weights)
+    #########################################################################
 
-    # Create a list of resistor packs, one for each weight.
-    res = res_network(value=weights)
+    # Change resistors so they have standard values based on E-series.
+    for r in res:
+        r.value = find_nearest_r(r)
 
     # Create the nets that will accept the weighted sums.
     analog_red = Net("R")
@@ -130,7 +134,7 @@ def vga(rgb=None, e_series="E12", logic_lvl=3.3 * units.volts):
     #    blu[1] --- (3)res[1](6) --- analog_blu
     #    ...
     for w, r, g, b in zip(res, exp_red, exp_grn, exp_blu):
-        w[:] += skidl.NC  # Attach unused pins to no-connect.
+        w[:] += NC  # Attach unused pins to no-connect.
         r & w[1, 8] & analog_red  # Red uses the 1st resistor in each pack.
         g & w[2, 7] & analog_grn  # Green uses the 2nd resistor in each pack.
         b & w[3, 6] & analog_blu  # Blue uses the 3rd resistor in each pack.
@@ -155,6 +159,8 @@ def vga(rgb=None, e_series="E12", logic_lvl=3.3 * units.volts):
 
 
 if __name__ == "__main__":
+    from skidl import ERC, POWER, generate_netlist, generate_pcb
+
     from circuitsascode.interfaces.pmod import pmod_plug_12
 
     # Define some nets and buses.
@@ -226,8 +232,8 @@ if __name__ == "__main__":
     gnd += bread_board_conn[18], pm[0]["GND"], pm[1]["GND"]
 
     # The PMOD ground pins are defined as power outputs so there will be an error
-    # if they're connected together. Therefore, turn off the error checking on one
-    # of them to swallow the error.
+    # if they're connected together. So turn of the ERC for these pins.
+    pm[0]["GND"].do_erc = False
     pm[1]["GND"].do_erc = False
 
     # Send the RGB buses and syncs to the VGA port circuit.
@@ -240,6 +246,5 @@ if __name__ == "__main__":
     vga1.gnd += gnd
 
     ERC()  # Run error checks.
-    # generate_pcb()
-    generate_netlist()  # Generate the netlist.
-    # generate_svg()
+    generate_pcb()
+    # generate_netlist()  # Generate the netlist.

@@ -61,28 +61,32 @@ def apply_units(v, units):
         return (v * units).to_compact()
 
 
-def _find_nearest(v, dflt_unit, e_series):
+def _find_nearest(v, dflt_unit, e_series="E24"):
 
-    # Get E series of values.
-    series = series_key_from_name(e_series)
+    # Get the value and E-series attributes if the passed-in argument is a Part.
+    # Otherwise, use the passed-in value and E-series.
+    e_series = getattr(v, "e_series", e_series)
+    v = getattr(v, "value", v)
 
     # Make sure value has units attached to it.
     v = apply_units(v, dflt_unit)
 
-    # Find E-series value nearest to the given value.
-    v_near = eseries.find_nearest(series, v.magnitude)
-
-    # Apply the Pint unit to the value.
-    v_near *= v.units
-
-    return v_near
+    # Get E series of values.
+    try:
+        series = series_key_from_name(e_series)
+    except ValueError:
+        # Unknown E-series, so just return the value unchanged.
+        return v
+    else:
+        # Return the E-series value nearest to the given value.
+        return eseries.find_nearest(series, v.magnitude) * v.units
 
 
 def find_nearest_r(r, e_series="E24"):
     """Find the nearest E-series resistor value to the given value.
 
     Args:
-        r (numeric, unit): Resistance as a number with or without an attached Pint Ohm unit.
+        r (numeric/Part, unit): Resistor Part or resistance as a number with or without an attached Pint Ohm unit.
         e_series (string, optional): E-series of resistor values (E3, E6, E12, E24, E48, E96, E192). Defaults to "E24" (5%).
 
     Returns:
@@ -103,7 +107,7 @@ def find_nearest_c(c, e_series="E24"):
     """Find the nearest E-series capacitor value to the given value.
 
     Args:
-        c (numeric, unit): Capacitance as a number with or without an attached Pint nanofarad unit.
+        c (numeric/Part, unit): Capacitor Part or capacitance as a number with or without an attached Pint nanofarad unit.
         e_series (string, optional): E-series of capacitor values (E3, E6, E12, E24, E48, E96, E192). Defaults to "E24" (5%).
 
     Returns:

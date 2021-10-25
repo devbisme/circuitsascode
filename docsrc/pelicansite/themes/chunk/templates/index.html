@@ -3,7 +3,7 @@
 {% endblock %}
 {% block content %}
 	{% for article in articles_page.object_list %}
-		{% include 'post.html' %}
+		{% include 'summary.html' %}
 	{% endfor %}
 	{% include 'pagination.html' %}
 {% endblock content %}

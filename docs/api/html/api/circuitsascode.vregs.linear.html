@@ -1,0 +1,232 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>circuitsascode.vregs.linear module &#8212; circuitsascode 0.0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="circuitsascode.utilities module" href="circuitsascode.utilities.html" />
+    <link rel="prev" title="circuitsascode.vregs package" href="circuitsascode.vregs.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <h1 id="site-title"><a href="../../../"><img src="../../../images/slim_banner.png" width="100%"></a></h1>
+    
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="circuitsascode.utilities.html" title="circuitsascode.utilities module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="circuitsascode.vregs.html" title="circuitsascode.vregs package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="circuitsascode.vregs.html" accesskey="U">circuitsascode.vregs package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-circuitsascode.vregs.linear">
+<span id="circuitsascode-vregs-linear-module"></span><h1>circuitsascode.vregs.linear module<a class="headerlink" href="#module-circuitsascode.vregs.linear" title="Permalink to this headline">¶</a></h1>
+<p>This module provides circuits based upon linear voltage regulators.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="circuitsascode.vregs.linear.adj_vreg">
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.vregs.linear.</span></span><span class="sig-name descname"><span class="pre">adj_vreg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.3</span> <span class="pre">*</span> <span class="pre">units.volts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">units.kohm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dflt_part_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'vreg':</span> <span class="pre">Part(lib='Regulator_Linear',</span> <span class="pre">name='AZ1117-ADJ',</span> <span class="pre">v_ref=DFLT_V_REF,</span> <span class="pre">i_adj=DFLT_I_ADJ,</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Package_TO_SOT_SMD:SOT-223-3_TabPin2'),</span> <span class="pre">'r':</span> <span class="pre">Part(lib='Device',</span> <span class="pre">name='R',</span> <span class="pre">e_series='E48',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Resistor_SMD:R_0603_1608Metric'),</span> <span class="pre">'c_in':</span> <span class="pre">Part(lib='Device',</span> <span class="pre">name='C',</span> <span class="pre">value=10</span> <span class="pre">*</span> <span class="pre">units.ufarad,</span> <span class="pre">e_series='E12',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Capacitor_SMD:C_0603_1608Metric'),</span> <span class="pre">'c_out':</span> <span class="pre">Part(lib='Device',</span> <span class="pre">name='C',</span> <span class="pre">value=22</span> <span class="pre">*</span> <span class="pre">units.ufarad,</span> <span class="pre">e_series='E12',</span> <span class="pre">dest=TEMPLATE,</span> <span class="pre">footprint='Capacitor_SMD:C_0805_2012Metric')}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/circuitsascode/vregs/linear.html#adj_vreg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#circuitsascode.vregs.linear.adj_vreg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linear voltage regulator.</p>
+<p>Creates a voltage regulator with input/output filter capacitors and appropriately-sized resistors to set
+the output voltage of an adjustable, three-terminal regulator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_out</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Desired output voltage of the regulator.</p></li>
+<li><p><strong>r_total</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Total resistance of the resistor divider that sets the output voltage. Defaults to 10 KOhm.</p></li>
+<li><p><strong>part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</p></li>
+<li><p><strong>dflt_part_dict</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>, </em><em>optional</em>) – Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>An Interface object containing the following I/O</dt><dd><ul class="simple">
+<li><p>vin:  Unregulated input voltage.</p></li>
+<li><p>vout: Regulated output voltage.</p></li>
+<li><p>gnd:  Reference voltage (usually ground).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Interface</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">circuitsascode.vregs.linear</span> <span class="kn">import</span> <span class="n">adj_vreg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vrg</span> <span class="o">=</span> <span class="n">adj_vreg</span><span class="p">(</span><span class="n">v_out</span><span class="o">=</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">volt</span><span class="p">,</span> <span class="n">r_total</span><span class="o">=</span><span class="mi">100</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">kohm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vin</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VIN&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vout</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;VOUT&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gnd</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;GND&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vrg</span><span class="p">[</span><span class="s2">&quot;vin vout gnd&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">vin</span><span class="p">,</span> <span class="n">vout</span><span class="p">,</span> <span class="n">gnd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_netlist</span><span class="p">()</span> 
+<span class="go">&#39;(...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vin</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">vout</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">gnd</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="circuitsascode.vregs.linear.calc_r1_i_adj_val">
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.vregs.linear.</span></span><span class="sig-name descname"><span class="pre">calc_r1_i_adj_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_adj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#circuitsascode.vregs.linear.calc_r1_i_adj_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created with lambdify. Signature:</p>
+<p>func(v_out, r_total, v_ref, i_adj)</p>
+<p>Expression:</p>
+<p>(i_adj*r_total - v_out + sqrt(i_adj**2*r_total**2 - 2*i_adj*r_total*v_out +…</p>
+<p>Source code:</p>
+<dl class="simple">
+<dt>def _lambdifygenerated(v_out, r_total, v_ref, i_adj):</dt><dd><p>return (1/2)*(i_adj*r_total - v_out + sqrt(i_adj**2*r_total**2 - 2*i_adj*r_total*v_out + 4*i_adj*r_total*v_ref + v_out**2))/i_adj</p>
+</dd>
+</dl>
+<p>Imported modules:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="circuitsascode.vregs.linear.calc_r1_val">
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.vregs.linear.</span></span><span class="sig-name descname"><span class="pre">calc_r1_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_ref</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#circuitsascode.vregs.linear.calc_r1_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created with lambdify. Signature:</p>
+<p>func(v_out, r_total, v_ref)</p>
+<p>Expression:</p>
+<p>r_total*v_ref/v_out</p>
+<p>Source code:</p>
+<dl class="simple">
+<dt>def _lambdifygenerated(v_out, r_total, v_ref):</dt><dd><p>return r_total*v_ref/v_out</p>
+</dd>
+</dl>
+<p>Imported modules:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="circuitsascode.vregs.linear.calc_r2_i_adj_val">
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.vregs.linear.</span></span><span class="sig-name descname"><span class="pre">calc_r2_i_adj_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_adj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#circuitsascode.vregs.linear.calc_r2_i_adj_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created with lambdify. Signature:</p>
+<p>func(v_out, r_total, v_ref, i_adj)</p>
+<p>Expression:</p>
+<p>(i_adj*r_total + v_out - sqrt(i_adj**2*r_total**2 - 2*i_adj*r_total*v_out +…</p>
+<p>Source code:</p>
+<dl class="simple">
+<dt>def _lambdifygenerated(v_out, r_total, v_ref, i_adj):</dt><dd><p>return (1/2)*(i_adj*r_total + v_out - sqrt(i_adj**2*r_total**2 - 2*i_adj*r_total*v_out + 4*i_adj*r_total*v_ref + v_out**2))/i_adj</p>
+</dd>
+</dl>
+<p>Imported modules:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="circuitsascode.vregs.linear.calc_r2_val">
+<span class="sig-prename descclassname"><span class="pre">circuitsascode.vregs.linear.</span></span><span class="sig-name descname"><span class="pre">calc_r2_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_ref</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#circuitsascode.vregs.linear.calc_r2_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created with lambdify. Signature:</p>
+<p>func(v_out, r_total, v_ref)</p>
+<p>Expression:</p>
+<p>r_total*(v_out - v_ref)/v_out</p>
+<p>Source code:</p>
+<dl class="simple">
+<dt>def _lambdifygenerated(v_out, r_total, v_ref):</dt><dd><p>return r_total*(v_out - v_ref)/v_out</p>
+</dd>
+</dl>
+<p>Imported modules:</p>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="circuitsascode.vregs.html"
+                        title="previous chapter">circuitsascode.vregs package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="circuitsascode.utilities.html"
+                        title="next chapter">circuitsascode.utilities module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/circuitsascode.vregs.linear.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="circuitsascode.utilities.html" title="circuitsascode.utilities module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="circuitsascode.vregs.html" title="circuitsascode.vregs package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >circuitsascode</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="circuitsascode.html" >circuitsascode package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="circuitsascode.vregs.html" >circuitsascode.vregs package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.vregs.linear module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, devbisme.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
+    </div>
+  </body>
+</html>

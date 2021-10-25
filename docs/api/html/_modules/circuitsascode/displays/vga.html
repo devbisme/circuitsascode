@@ -6,10 +6,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>circuitsascode.displays.vga &#8212; circuitsascode 0.0.1.post1.dev0+gb79e3d5.d20210827 documentation</title>
+    <title>circuitsascode.displays.vga &#8212; circuitsascode 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-
+    
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
@@ -23,7 +23,7 @@
     <![endif]-->
   </head><body>
     <h1 id="site-title"><a href="../../../../../"><img src="../../../../../images/slim_banner.png" width="100%"></a></h1>
-
+    
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -33,41 +33,41 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.1.post1.dev0+gb79e3d5.d20210827 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.displays.vga</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.displays.vga</a></li> 
       </ul>
-    </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <h1>Source code for circuitsascode.displays.vga</h1><div class="highlight"><pre>
 <span></span><span class="c1"># The MIT License (MIT) - Copyright (c) 2021 xesscorp</span>
 
-<span class="kn">import</span> <span class="nn">skidl</span>
-<span class="kn">from</span> <span class="nn">casc</span> <span class="kn">import</span> <span class="n">units</span>
-<span class="kn">from</span> <span class="nn">skidl</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># generate_pcb</span>
-    <span class="n">ERC</span><span class="p">,</span>
-    <span class="n">NC</span><span class="p">,</span>
-    <span class="n">POWER</span><span class="p">,</span>
-    <span class="n">TEMPLATE</span><span class="p">,</span>
-    <span class="n">Bus</span><span class="p">,</span>
-    <span class="n">Interface</span><span class="p">,</span>
-    <span class="n">Net</span><span class="p">,</span>
-    <span class="n">Part</span><span class="p">,</span>
-    <span class="n">SubCircuit</span><span class="p">,</span>
-    <span class="n">generate_netlist</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">skidl</span> <span class="kn">import</span> <span class="n">TEMPLATE</span><span class="p">,</span> <span class="n">Bus</span><span class="p">,</span> <span class="n">Interface</span><span class="p">,</span> <span class="n">Net</span><span class="p">,</span> <span class="n">Part</span><span class="p">,</span> <span class="n">SubCircuit</span>
 
-<span class="kn">import</span> <span class="nn">circuitsascode</span> <span class="k">as</span> <span class="nn">casc</span>
+<span class="kn">from</span> <span class="nn">circuitsascode</span> <span class="kn">import</span> <span class="n">units</span>
 <span class="kn">from</span> <span class="nn">circuitsascode.utilities</span> <span class="kn">import</span> <span class="n">apply_units</span><span class="p">,</span> <span class="n">find_nearest_r</span>
 
 
 <div class="viewcode-block" id="vga"><a class="viewcode-back" href="../../../api/circuitsascode.displays.vga.html#circuitsascode.displays.vga.vga">[docs]</a><span class="nd">@SubCircuit</span>
-<span class="k">def</span> <span class="nf">vga</span><span class="p">(</span><span class="n">rgb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E12&quot;</span><span class="p">,</span> <span class="n">logic_lvl</span><span class="o">=</span><span class="mf">3.3</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">volts</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">vga</span><span class="p">(</span>
+    <span class="n">rgb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">logic_lvl</span><span class="o">=</span><span class="mf">3.3</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">volts</span><span class="p">,</span>
+    <span class="n">part_dict</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">dflt_part_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;rn&quot;</span><span class="p">:</span> <span class="n">Part</span><span class="p">(</span>
+            <span class="s2">&quot;Device&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;R_Pack04&quot;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
+            <span class="n">e_series</span><span class="o">=</span><span class="s2">&quot;E12&quot;</span><span class="p">,</span>
+            <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Resistor_SMD:R_Array_Concave_4x0603&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Analog-RGB VGA port driven by red, grn, blu digital color buses.</span>
 
 <span class="sd">    Takes list of red, green and blue bus widths and creates a resistor network</span>
@@ -76,8 +76,9 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        rgb (list, optional): List of integer widths for the red, green and blue buses. Defaults to (3, 3, 3).</span>
-<span class="sd">        e_series (str, optional): E-series of resistor values (E3, E6, E12, E24, E48, E96, E192). Defaults to &quot;E12&quot; (10%).</span>
 <span class="sd">        logic_lvl (float, optional): V_hi voltage for digital signals. Defaults to 3.3V.</span>
+<span class="sd">        part_dict (dict, optional): Dictionary of user-supplied {part name: Part template} entries that are used to build the circuit.</span>
+<span class="sd">        dflt_part_dict(dict, optional): Dictionary of default parts that will be used if corresponding entires do not exist in the part_dict argument.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Interface:</span>
@@ -102,6 +103,10 @@
 <span class="sd">        &gt;&gt;&gt; vga1.gnd += gnd</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># Create the dict of parts to be used in the circuit, starting with the default parts</span>
+    <span class="c1"># and then overwriting them with any user-supplied parts.</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">dflt_part_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">part_dict</span><span class="p">}</span>
+
     <span class="c1"># Substitute default RGB bus widths if needed.</span>
     <span class="k">if</span> <span class="n">rgb</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rgb</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -116,45 +121,44 @@
     <span class="c1"># Create the VGA interface circuitry.</span>
     <span class="c1"># _vga_subckt(red, grn, blu, hsync, vsync, gnd, e_series=e_series, logic_lvl=logic_lvl)</span>
 
-    <span class="c1"># Determine the color depth by finding the max width of the digital color buses.</span>
-    <span class="c1"># (Note that the color buses don&#39;t have to be the same width.)</span>
-    <span class="n">depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
+    <span class="c1"># Determine the color width by finding the max width of the digital color buses.</span>
+    <span class="c1"># (Note that the color buses don&#39;t all have to be the same width.)</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
 
-    <span class="c1"># Add extra bus lines to any bus that&#39;s smaller than the depth and</span>
+    <span class="c1"># Add extra bus lines to any bus that&#39;s smaller than the width and</span>
     <span class="c1"># connect these extra lines to the original LSB bit of the bus.</span>
-    <span class="n">exp_red</span> <span class="o">=</span> <span class="n">Bus</span><span class="p">([</span><span class="n">red</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">red</span><span class="p">))],</span> <span class="n">red</span><span class="p">[:])</span>
-    <span class="n">exp_grn</span> <span class="o">=</span> <span class="n">Bus</span><span class="p">([</span><span class="n">grn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">grn</span><span class="p">))],</span> <span class="n">grn</span><span class="p">[:])</span>
-    <span class="n">exp_blu</span> <span class="o">=</span> <span class="n">Bus</span><span class="p">([</span><span class="n">blu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">blu</span><span class="p">))],</span> <span class="n">blu</span><span class="p">[:])</span>
+    <span class="n">exp_red</span> <span class="o">=</span> <span class="n">Bus</span><span class="p">([</span><span class="n">red</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">red</span><span class="p">))],</span> <span class="n">red</span><span class="p">[:])</span>
+    <span class="n">exp_grn</span> <span class="o">=</span> <span class="n">Bus</span><span class="p">([</span><span class="n">grn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">grn</span><span class="p">))],</span> <span class="n">grn</span><span class="p">[:])</span>
+    <span class="n">exp_blu</span> <span class="o">=</span> <span class="n">Bus</span><span class="p">([</span><span class="n">blu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">blu</span><span class="p">))],</span> <span class="n">blu</span><span class="p">[:])</span>
 
-    <span class="c1"># Calculate the resistor weights to support the given color depth.</span>
+    <span class="c1">#########################################################################</span>
+    <span class="c1"># Calculate the resistor weights to support the given color width.</span>
     <span class="n">vga_input_impedance</span> <span class="o">=</span> <span class="mf">75.0</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">ohms</span>  <span class="c1"># Impedance of VGA analog inputs.</span>
     <span class="n">vga_analog_max</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="n">units</span><span class="o">.</span><span class="n">volts</span>  <span class="c1"># Maximum brightness color voltage.</span>
+
     <span class="c1"># Compute the resistance of the upper leg of the voltage divider that will</span>
     <span class="c1"># drop the logic_lvl to the vga_analog_max level if the lower leg has</span>
     <span class="c1"># a resistance of vga_input_impedance.</span>
     <span class="n">R</span> <span class="o">=</span> <span class="p">(</span><span class="n">logic_lvl</span> <span class="o">-</span> <span class="n">vga_analog_max</span><span class="p">)</span> <span class="o">*</span> <span class="n">vga_input_impedance</span> <span class="o">/</span> <span class="n">vga_analog_max</span>
+
     <span class="c1"># The basic weight is R * (1 + 1/2 + 1/4 + ... + 1/2**(width-1))</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">([</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">)])</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">([</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">)])</span>
+
     <span class="c1"># The most significant color bit has a weight of r. The next bit has a weight</span>
     <span class="c1"># of 2r. The next bit has a weight of 4r, and so on. The weights are arranged</span>
     <span class="c1"># in decreasing order so the least significant weight is at the start of the list.</span>
-    <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">))]</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">))]</span>
 
-    <span class="c1"># Convert resistor weights into standard values.</span>
-    <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">find_nearest_r</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">e_series</span><span class="o">=</span><span class="n">e_series</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">weights</span><span class="p">]</span>
-
-    <span class="c1"># Quad resistor packs are used to create weighted sums of the digital</span>
-    <span class="c1"># signals on the red, green and blue buses. (One resistor in each pack</span>
+    <span class="c1"># Quad resistor networks are used to create weighted sums of the digital</span>
+    <span class="c1"># signals on the red, green and blue buses. (One resistor in each network</span>
     <span class="c1"># will not be used since there are only three colors.)</span>
-    <span class="n">res_network</span> <span class="o">=</span> <span class="n">Part</span><span class="p">(</span>
-        <span class="n">lib</span><span class="o">=</span><span class="s2">&quot;Device&quot;</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;R_Pack04&quot;</span><span class="p">,</span>
-        <span class="n">footprint</span><span class="o">=</span><span class="s2">&quot;Resistor_SMD:R_Array_Concave_4x0603&quot;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="n">TEMPLATE</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="c1"># So create a list of resistor networks, one for each weight.</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="s2">&quot;rn&quot;</span><span class="p">](</span><span class="n">value</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="c1">#########################################################################</span>
 
-    <span class="c1"># Create a list of resistor packs, one for each weight.</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">res_network</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="c1"># Change resistors so they have standard values based on E-series.</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">find_nearest_r</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 
     <span class="c1"># Create the nets that will accept the weighted sums.</span>
     <span class="n">analog_red</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">)</span>
@@ -177,7 +181,7 @@
     <span class="c1">#    blu[1] --- (3)res[1](6) --- analog_blu</span>
     <span class="c1">#    ...</span>
     <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">exp_red</span><span class="p">,</span> <span class="n">exp_grn</span><span class="p">,</span> <span class="n">exp_blu</span><span class="p">):</span>
-        <span class="n">w</span><span class="p">[:]</span> <span class="o">+=</span> <span class="n">skidl</span><span class="o">.</span><span class="n">NC</span>  <span class="c1"># Attach unused pins to no-connect.</span>
+        <span class="n">w</span><span class="p">[:]</span> <span class="o">+=</span> <span class="n">NC</span>  <span class="c1"># Attach unused pins to no-connect.</span>
         <span class="n">r</span> <span class="o">&amp;</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">analog_red</span>  <span class="c1"># Red uses the 1st resistor in each pack.</span>
         <span class="n">g</span> <span class="o">&amp;</span> <span class="n">w</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">analog_grn</span>  <span class="c1"># Green uses the 2nd resistor in each pack.</span>
         <span class="n">b</span> <span class="o">&amp;</span> <span class="n">w</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">analog_blu</span>  <span class="c1"># Blue uses the 3rd resistor in each pack.</span>
@@ -202,6 +206,8 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">skidl</span> <span class="kn">import</span> <span class="n">ERC</span><span class="p">,</span> <span class="n">POWER</span><span class="p">,</span> <span class="n">generate_netlist</span><span class="p">,</span> <span class="n">generate_pcb</span>
+
     <span class="kn">from</span> <span class="nn">circuitsascode.interfaces.pmod</span> <span class="kn">import</span> <span class="n">pmod_plug_12</span>
 
     <span class="c1"># Define some nets and buses.</span>
@@ -273,8 +279,8 @@
     <span class="n">gnd</span> <span class="o">+=</span> <span class="n">bread_board_conn</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">pm</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;GND&quot;</span><span class="p">],</span> <span class="n">pm</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;GND&quot;</span><span class="p">]</span>
 
     <span class="c1"># The PMOD ground pins are defined as power outputs so there will be an error</span>
-    <span class="c1"># if they&#39;re connected together. Therefore, turn off the error checking on one</span>
-    <span class="c1"># of them to swallow the error.</span>
+    <span class="c1"># if they&#39;re connected together. So turn of the ERC for these pins.</span>
+    <span class="n">pm</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;GND&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">do_erc</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">pm</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;GND&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">do_erc</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="c1"># Send the RGB buses and syncs to the VGA port circuit.</span>
@@ -287,9 +293,8 @@
     <span class="n">vga1</span><span class="o">.</span><span class="n">gnd</span> <span class="o">+=</span> <span class="n">gnd</span>
 
     <span class="n">ERC</span><span class="p">()</span>  <span class="c1"># Run error checks.</span>
-    <span class="c1"># generate_pcb()</span>
-    <span class="n">generate_netlist</span><span class="p">()</span>  <span class="c1"># Generate the netlist.</span>
-    <span class="c1"># generate_svg()</span>
+    <span class="n">generate_pcb</span><span class="p">()</span>
+    <span class="c1"># generate_netlist()  # Generate the netlist.</span>
 </pre></div>
 
             <div class="clearer"></div>
@@ -321,9 +326,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.1.post1.dev0+gb79e3d5.d20210827 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">circuitsascode 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">circuitsascode.displays.vga</a></li>
+        <li class="nav-item nav-item-this"><a href="">circuitsascode.displays.vga</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

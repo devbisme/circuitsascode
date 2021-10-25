@@ -23,7 +23,7 @@ DELETE_OUTPUT_DIRECTORY = True
 MENUITEMS = (
     ("Github", "https://github.com/devbisme/circuitsascode"),
     ("Forum", "https://github.com/xesscorp/skidl/discussions"),
-    ("Blog", f"{SITEURL}/category/posts"),
+    ("Blog", f"{SITEURL}/category/posts.html"),
     ("Library", f"{SITEURL}/api/html/index.html"),
     ("Home", f"{SITEURL}/"),
 )
