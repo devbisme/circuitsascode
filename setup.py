@@ -46,7 +46,7 @@ setup(
     project_urls={
         "Twitter": "https://twitter.com/circuitsascode",
         "Tracker": "https://github.com/devbisme/circuitsascode/issues",
-        "Changelog": "https://github.com/devbisme/circuitsascode/latest/CHANGELOG.html",
+        "Changelog": "https://github.com/devbisme/circuitsascode/latest/CHANGELOG.md",
         "Source": "https://github.com/devbisme/circuitsascode",
         "Documentation": "https://devbisme.github.io/circuitsascode",
     },
